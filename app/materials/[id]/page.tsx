@@ -21,6 +21,10 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
 
   useEffect(() => {
     fetchData()
+    // Pre-load voices for mobile browsers
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.getVoices();
+    }
   }, [])
 
   const fetchData = async () => {
@@ -72,13 +76,31 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
   const speakArabic = (text: string) => {
       if (typeof window === 'undefined' || !window.speechSynthesis) return;
       
-      // Cancel any ongoing speech for better response on mobile
+      // Stop current speech
       window.speechSynthesis.cancel();
 
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ar-SA'; 
-      utterance.rate = 0.9;
-      window.speechSynthesis.speak(utterance);
+      // Small delay helps mobile browsers reset the engine
+      setTimeout(() => {
+          const utterance = new SpeechSynthesisUtterance(text);
+          
+          // Get available voices
+          const voices = window.speechSynthesis.getVoices();
+          
+          // Try to find a specific Arabic voice
+          const arabicVoice = voices.find(v => v.lang.includes('ar-SA')) || 
+                        voices.find(v => v.lang.includes('ar')) ||
+                        voices.find(v => v.name.toLowerCase().includes('arabic'));
+
+          if (arabicVoice) {
+              utterance.voice = arabicVoice;
+          }
+          
+          utterance.lang = 'ar-SA';
+          utterance.rate = 0.9;
+          utterance.pitch = 1;
+
+          window.speechSynthesis.speak(utterance);
+      }, 50);
   }
 
   if (loading) {
