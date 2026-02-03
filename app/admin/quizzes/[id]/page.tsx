@@ -4,7 +4,7 @@ import React, { useEffect, useState, use } from 'react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 import { Quiz, Question } from '@/lib/types'
-import { ArrowLeft, Plus, Save, Trash2, CheckCircle2, Loader2, Image as ImageIcon, GripVertical } from 'lucide-react'
+import { ArrowLeft, Plus, Save, Trash2, CheckCircle2, Loader2, Image as ImageIcon, GripVertical, Pencil, X } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 
@@ -33,11 +33,13 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 function SortableQuestion({ 
     q, 
     idx, 
-    onDelete 
+    onDelete,
+    onEdit 
 }: { 
     q: Question, 
     idx: number, 
-    onDelete: (id: number) => void 
+    onDelete: (id: number) => void,
+    onEdit: (q: Question) => void
 }) {
     const {
         attributes,
@@ -94,12 +96,22 @@ function SortableQuestion({
                 </div>
             </div>
 
-            <button 
-                onClick={() => onDelete(q.id)}
-                className="text-gray-300 hover:text-red-500 transition-colors self-start"
-            >
-                <Trash2 size={18} />
-            </button>
+            <div className="flex flex-col gap-2">
+                <button 
+                    onClick={() => onEdit(q)}
+                    className="text-gray-300 hover:text-blue-500 transition-colors p-1"
+                    title="Edit Soal"
+                >
+                    <Pencil size={18} />
+                </button>
+                <button 
+                    onClick={() => onDelete(q.id)}
+                    className="text-gray-300 hover:text-red-500 transition-colors p-1"
+                    title="Hapus Soal"
+                >
+                    <Trash2 size={18} />
+                </button>
+            </div>
         </div>
     );
 }
@@ -110,14 +122,15 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
   const [questions, setQuestions] = useState<Question[]>([])
   const [loading, setLoading] = useState(true)
   
-  // New Question Form State
+  // Question Form State
+  const [editingId, setEditingId] = useState<number | null>(null)
   const [qText, setQText] = useState('')
   const [optA, setOptA] = useState('')
   const [optB, setOptB] = useState('')
   const [optC, setOptC] = useState('')
   const [optD, setOptD] = useState('')
   const [correct, setCorrect] = useState<'a'|'b'|'c'|'d'>('a')
-  const [addingQ, setAddingQ] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   // DND Sensors
   const sensors = useSensors(
@@ -162,38 +175,73 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
     }
   }
 
-  const handleAddQuestion = async (e: React.FormEvent) => {
+  const resetForm = () => {
+    setEditingId(null)
+    setQText('')
+    setOptA('')
+    setOptB('')
+    setOptC('')
+    setOptD('')
+    setCorrect('a')
+  }
+
+  const handleEditClick = (q: Question) => {
+    setEditingId(q.id)
+    setQText(q.question_text)
+    setOptA(q.option_a)
+    setOptB(q.option_b)
+    setOptC(q.option_c)
+    setOptD(q.option_d)
+    setCorrect(q.correct_answer)
+    
+    // Scroll to form on mobile
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleSubmitQuestion = async (e: React.FormEvent) => {
     e.preventDefault()
-    setAddingQ(true)
+    setSubmitting(true)
 
     try {
-        const { data, error } = await supabase.from('questions').insert({
-            quiz_id: parseInt(id),
-            question_text: qText,
-            option_a: optA,
-            option_b: optB,
-            option_c: optC,
-            option_d: optD,
-            correct_answer: correct,
-            order_index: questions.length // Add at the end
-        }).select().single()
+        if (editingId) {
+            // Update Existing
+            const { data, error } = await supabase.from('questions').update({
+                question_text: qText,
+                option_a: optA,
+                option_b: optB,
+                option_c: optC,
+                option_d: optD,
+                correct_answer: correct
+            }).eq('id', editingId).select().single()
 
-        if (error) throw error
+            if (error) throw error
+            
+            setQuestions(questions.map(q => q.id === editingId ? data : q))
+            toast.success('Soal berhasil diperbarui')
+        } else {
+            // Add New
+            const { data, error } = await supabase.from('questions').insert({
+                quiz_id: parseInt(id),
+                question_text: qText,
+                option_a: optA,
+                option_b: optB,
+                option_c: optC,
+                option_d: optD,
+                correct_answer: correct,
+                order_index: questions.length
+            }).select().single()
 
-        setQuestions([...questions, data])
-        toast.success('Soal berhasil ditambahkan')
+            if (error) throw error
+
+            setQuestions([...questions, data])
+            toast.success('Soal berhasil ditambahkan')
+        }
         
-        // Reset form
-        setQText('')
-        setOptA('')
-        setOptB('')
-        setOptC('')
-        setOptD('')
-        setCorrect('a')
+        resetForm()
     } catch (error: any) {
-        toast.error('Gagal menambah soal: ' + error.message)
+        toast.error('Gagal menyimpan soal: ' + error.message)
     } finally {
-        setAddingQ(false)
+        setSubmitting(false)
     }
   }
 
@@ -203,11 +251,8 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
           const { error } = await supabase.from('questions').delete().eq('id', qId)
           if (error) throw error
           
-          const updatedQuestions = questions.filter(q => q.id !== qId)
-          setQuestions(updatedQuestions)
-          
-          // Optionally re-index after delete
-          // I'll skip it for now as gap in order_index doesn't hurt sorting
+          setQuestions(questions.filter(q => q.id !== qId))
+          if (editingId === qId) resetForm()
           
           toast.success("Soal dihapus")
       } catch (error: any) {
@@ -227,15 +272,11 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
 
       // Update in Supabase
       try {
-        // We update all potentially affected items
-        // For simplicity and small datasets, update all in a loop or batch
         const updates = newQuestions.map((q, index) => ({
           id: q.id,
           order_index: index,
         }));
 
-        // Batch update using loop (Supabase JS doesn't have a clean multi-update with different values)
-        // Promise.all is faster
         const updatePromises = updates.map(u => 
             supabase.from('questions').update({ order_index: u.order_index }).eq('id', u.id)
         );
@@ -243,14 +284,11 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
         const results = await Promise.all(updatePromises);
         const errors = results.filter(r => r.error);
         
-        if (errors.length > 0) {
-            throw new Error("Beberapa urutan gagal disimpan");
-        }
+        if (errors.length > 0) throw new Error("Beberapa urutan gagal disimpan");
 
         toast.success("Urutan berhasil diperbarui");
       } catch (error: any) {
         toast.error("Gagal menyimpan urutan: " + error.message);
-        // Revert UI state on error
         fetchData();
       }
     }
@@ -280,13 +318,31 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 px-4 sm:px-0">
-        {/* Left Column: Form Add Question */}
+        {/* Left Column: Form Question */}
         <div className="lg:col-span-1">
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 sticky top-4">
-                <h2 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                    <Plus size={18} className="text-[#e76f51]" /> Tambah Soal
-                </h2>
-                <form onSubmit={handleAddQuestion} className="space-y-4">
+            <div className={cn(
+                "bg-white p-6 rounded-xl shadow-sm border sticky top-4 transition-all duration-300",
+                editingId ? "border-blue-200 ring-2 ring-blue-50" : "border-gray-100"
+            )}>
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="font-bold text-gray-800 flex items-center gap-2">
+                        {editingId ? (
+                            <><Pencil size={18} className="text-blue-500" /> Edit Soal</>
+                        ) : (
+                            <><Plus size={18} className="text-[#e76f51]" /> Tambah Soal</>
+                        )}
+                    </h2>
+                    {editingId && (
+                        <button 
+                            onClick={resetForm}
+                            className="text-xs font-bold text-gray-400 hover:text-red-500 flex items-center gap-1 transition-colors"
+                        >
+                            <X size={14} /> Batal
+                        </button>
+                    )}
+                </div>
+                
+                <form onSubmit={handleSubmitQuestion} className="space-y-4">
                     <div>
                         <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Pertanyaan</label>
                         <textarea 
@@ -333,11 +389,14 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
                          <p className="text-[10px] text-gray-400 mb-3 italic">* Klik huruf (A/B/C/D) untuk mengatur kunci jawaban.</p>
                          <button 
                             type="submit" 
-                            disabled={addingQ}
-                            className="w-full bg-[#2a9d8f] hover:bg-[#21867a] text-white py-2.5 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md disabled:opacity-50"
+                            disabled={submitting}
+                            className={cn(
+                                "w-full text-white py-2.5 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md disabled:opacity-50",
+                                editingId ? "bg-blue-600 hover:bg-blue-700" : "bg-[#2a9d8f] hover:bg-[#21867a]"
+                            )}
                          >
-                             {addingQ ? <Loader2 className="animate-spin" size={16} /> : <Save size={16} />}
-                             {addingQ ? 'Menambahkan...' : 'Simpan Soal'}
+                             {submitting ? <Loader2 className="animate-spin" size={16} /> : (editingId ? <Save size={16} /> : <Plus size={16} />)}
+                             {submitting ? 'Menyimpan...' : (editingId ? 'Simpan Perubahan' : 'Tambah ke Kuis')}
                          </button>
                     </div>
                 </form>
@@ -377,7 +436,8 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
                                         key={q.id} 
                                         q={q} 
                                         idx={idx} 
-                                        onDelete={handleDeleteQuestion} 
+                                        onDelete={handleDeleteQuestion}
+                                        onEdit={handleEditClick} 
                                     />
                                 ))}
                             </div>

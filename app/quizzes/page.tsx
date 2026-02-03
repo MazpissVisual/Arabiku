@@ -108,7 +108,7 @@ export default function QuizzesIndex() {
                                         <div className="relative inline-block w-full">
                                             <div className="absolute inset-0 bg-[#E65100] rounded-xl translate-y-1 opacity-40"></div>
                                             <button className="relative w-full bg-[#F57F17] group-hover:bg-[#E65100] text-white text-[10px] md:text-xs font-black py-2.5 rounded-xl border-b-4 border-black/10 transition-all active:translate-y-1 uppercase tracking-wider">
-                                                MULAI BELAJAR 🚀
+                                                UJI KEMAMPUAN 🚀
                                             </button>
                                         </div>
                                     </div>
