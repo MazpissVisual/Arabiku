@@ -96,29 +96,29 @@ export default function Home() {
         
         /* Height-based responsive scaling - Targeted for 1920x912 laptop */
         .responsive-game-scale {
-            transform: scale(0.65);
+            transform: scale(0.75);
         }
 
         @media (min-height: 600px) {
-            .responsive-game-scale { transform: scale(0.75); }
-        }
-
-        @media (min-height: 800px) {
             .responsive-game-scale { transform: scale(0.85); }
         }
 
-        /* The user's specific laptop height (912px) falls here */
+        @media (min-height: 800px) {
+            .responsive-game-scale { transform: scale(0.95); }
+        }
+
+        /* The user's specific laptop height (912px) is now scale 1.0 for better visibility */
         @media (min-height: 900px) {
-            .responsive-game-scale { transform: scale(0.9); }
+            .responsive-game-scale { transform: scale(1.0); }
         }
 
         @media (min-height: 1000px) {
-            .responsive-game-scale { transform: scale(1.05); }
+            .responsive-game-scale { transform: scale(1.15); }
         }
 
         /* Large External Monitors */
         @media (min-height: 1200px) {
-            .responsive-game-scale { transform: scale(1.2); }
+            .responsive-game-scale { transform: scale(1.3); }
         }
       `}</style>
     </div>
