@@ -5,13 +5,13 @@ import { Gamepad2, GraduationCap, PlayCircle, Lock } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="h-screen w-full flex flex-col items-center justify-center p-2 relative bg-[url('/bg-main.jpg')] bg-cover bg-center bg-no-repeat overflow-hidden">
+    <div className="h-screen w-full flex flex-col items-center justify-start md:justify-center p-2 pt-12 md:pt-0 relative bg-[url('/bg-main.jpg')] bg-cover bg-center bg-no-repeat overflow-hidden">
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-black/10 z-0 fixed"></div>
 
-      <main className="relative z-10 flex flex-col items-center justify-center w-full max-w-sm gap-2 md:gap-10 scale-[0.75] sm:scale-100 origin-center">
+      <main className="relative z-10 flex flex-col items-center w-full max-w-sm gap-2 md:gap-10 scale-[0.75] sm:scale-100 origin-top md:origin-center">
         {/* Header / Logo Area */}
-        <div className="flex flex-col items-center mb-0 md:mb-4 text-center">
+        <div className="flex flex-col items-center mb-0 md:mb-4 text-center mt-4">
             <h1 className="text-4xl sm:text-6xl md:text-8xl font-black text-[#FFF176] drop-shadow-[0_4px_0_#F57F17] md:drop-shadow-[0_6px_0_#F57F17] tracking-tighter mb-0 md:mb-4 stroke-text animate-pulse-slow">
                 Arabiku
             </h1>
@@ -79,15 +79,15 @@ export default function Home() {
                     <span className="text-[10px] font-black text-white bg-red-500 px-2 py-0.5 rounded-full border-2 border-white shadow-sm rotate-12">SOON</span>
                 </div>
             </div>
-        </div>
 
-        {/* Footer / Admin Link */}
-        <div className="mt-0 md:mt-4">
-            <Link href="/admin/login">
-                <button className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-1 md:px-6 md:py-2 rounded-full border border-white/30 text-white font-bold text-[10px] md:text-sm transition-all shadow-lg active:scale-95">
-                   Login Guru / Admin 🔐
-                </button>
-            </Link>
+            {/* Footer / Admin Link - Brought inside the button stack for cohesion */}
+            <div className="mt-1 md:mt-4 text-center">
+                <Link href="/admin/login">
+                    <button className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-1.5 md:px-6 md:py-2 rounded-full border border-white/30 text-white font-bold text-[10px] md:text-sm transition-all shadow-lg active:scale-95">
+                       Login Guru / Admin 🔐
+                    </button>
+                </Link>
+            </div>
         </div>
       </main>
 
