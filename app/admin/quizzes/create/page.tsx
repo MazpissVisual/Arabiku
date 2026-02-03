@@ -53,7 +53,7 @@ export default function CreateQuizPage() {
                     type="text" 
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none text-gray-900 placeholder-gray-400"
                     placeholder="Contoh: Kuis Hewan Level 1"
                     required
                 />
@@ -65,7 +65,7 @@ export default function CreateQuizPage() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={4}
-                    className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none resize-none"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none resize-none text-gray-900 placeholder-gray-400"
                     placeholder="Deskripsi singkat tentang kuis ini..."
                 />
             </div>

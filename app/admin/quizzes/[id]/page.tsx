@@ -136,7 +136,7 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
                         <textarea 
                             value={qText}
                             onChange={e => setQText(e.target.value)}
-                            className="w-full px-3 py-2 mt-1 rounded-lg border border-gray-200 focus:border-[#e76f51] outline-none text-sm resize-none"
+                            className="w-full px-3 py-2 mt-1 rounded-lg border border-gray-400 focus:border-[#e76f51] outline-none text-sm resize-none text-gray-900 placeholder-gray-400"
                             rows={3}
                             placeholder="Tulis pertanyaan..."
                             required
@@ -163,8 +163,8 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
                                         if(opt === 'd') setOptD(e.target.value)
                                     }}
                                     className={cn(
-                                        "flex-1 px-3 py-2 rounded-md border text-sm outline-none",
-                                        correct === opt ? "border-green-500 bg-green-50" : "border-gray-200"
+                                        "flex-1 px-3 py-2 rounded-md border text-sm outline-none text-gray-900 placeholder-gray-400",
+                                        correct === opt ? "border-green-500 bg-green-50/50" : "border-gray-400"
                                     )}
                                     placeholder={`Pilihan ${opt.toUpperCase()}`}
                                     required
