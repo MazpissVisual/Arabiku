@@ -20,7 +20,7 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
   
   // Game State
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [score, setScore] = useState(0)
+  const [correctCount, setCorrectCount] = useState(0)
   const [gameState, setGameState] = useState<'intro' | 'playing' | 'result'>('intro')
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
   const [isAnswered, setIsAnswered] = useState(false)
@@ -98,7 +98,7 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
     const isCorrect = option === currentQ.correct_answer
 
     if (isCorrect) {
-        setScore(s => s + 10)
+        setCorrectCount(c => c + 1)
         confetti({
            particleCount: 50,
            spread: 60,
@@ -197,11 +197,11 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
 
   // --- Result Screen ---
   if (gameState === 'result') {
-      const percentage = Math.round((score / (questions.length * 10)) * 100)
+      const finalScore = Math.round((correctCount / questions.length) * 100)
       let message = "Terus Belajar!"
       let emotion = "💪"
-      if (percentage >= 80) { message = "Luar Biasa!"; emotion = "👑" }
-      else if (percentage >= 60) { message = "Bagus Sekali!"; emotion = "⭐" }
+      if (finalScore >= 80) { message = "Luar Biasa!"; emotion = "👑" }
+      else if (finalScore >= 60) { message = "Bagus Sekali!"; emotion = "⭐" }
 
       return (
           <div className="h-screen relative flex flex-col items-center justify-center p-4 text-center bg-[url('/bg-main.jpg')] bg-cover bg-center overflow-hidden">
@@ -220,7 +220,7 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
                           </div>
                       </div>
                       
-                      <h2 className="text-5xl font-black text-[#E65100] mb-1 drop-shadow-sm leading-none">{score}</h2>
+                      <h2 className="text-5xl font-black text-[#E65100] mb-1 drop-shadow-sm leading-none">{finalScore}</h2>
                       <p className="text-[#F57F17] font-black text-lg mb-8 uppercase tracking-widest">{message}</p>
                       
                       <div className="w-full space-y-3">
@@ -261,7 +261,7 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
               </button>
               <div className="bg-[#FFF9C4]/90 px-4 py-1.5 rounded-xl border-2 border-[#FBC02D] shadow-md flex items-center gap-2">
                   <Star className="text-[#E65100]" size={18} fill="currentColor" strokeWidth={3} />
-                  <span className="text-lg font-black text-[#E65100]">{score}</span>
+                  <span className="text-lg font-black text-[#E65100]">{Math.round((correctCount / questions.length) * 100)}</span>
               </div>
             </div>
 

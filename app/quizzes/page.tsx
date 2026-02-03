@@ -95,7 +95,7 @@ export default function QuizzesIndex() {
                                 {/* Bottom Content Area */}
                                 <div className="p-4 md:p-5 pt-3 flex flex-col items-center flex-1 text-center bg-gradient-to-b from-[#FFF9C4] to-[#FFF176]/30">
                                     <div className="mb-4 flex-1 flex flex-col justify-center">
-                                        <h3 className="text-lg md:text-2xl font-black text-[#E65100] uppercase tracking-tight drop-shadow-sm group-hover:text-[#BF360C] transition-colors leading-tight mb-1 line-clamp-1">
+                                        <h3 className="text-base md:text-lg font-black text-[#E65100] uppercase tracking-tight drop-shadow-sm group-hover:text-[#BF360C] transition-colors leading-tight mb-1 line-clamp-2">
                                             {quiz.title}
                                         </h3>
                                         <p className="text-[#8D6E63] text-[10px] md:text-xs font-bold leading-tight line-clamp-2 opacity-80 px-2">
