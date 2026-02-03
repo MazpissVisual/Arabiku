@@ -94,7 +94,7 @@ export default function Home() {
       <style jsx global>{`
         .border-b-6 { border-bottom-width: 6px; }
         
-        /* Height-based responsive scaling */
+        /* Height-based responsive scaling - Targeted for 1920x912 laptop */
         .responsive-game-scale {
             transform: scale(0.65);
         }
@@ -103,21 +103,22 @@ export default function Home() {
             .responsive-game-scale { transform: scale(0.75); }
         }
 
-        @media (min-height: 720px) {
+        @media (min-height: 800px) {
             .responsive-game-scale { transform: scale(0.85); }
         }
 
-        @media (min-height: 850px) {
-            .responsive-game-scale { transform: scale(0.95); }
+        /* The user's specific laptop height (912px) falls here */
+        @media (min-height: 900px) {
+            .responsive-game-scale { transform: scale(0.9); }
         }
 
         @media (min-height: 1000px) {
-            .responsive-game-scale { transform: scale(1.1); }
+            .responsive-game-scale { transform: scale(1.05); }
         }
 
-        /* Desktop specific tweak for large monitors with enough width */
-        @media (min-width: 1400px) and (min-height: 800px) {
-            .responsive-game-scale { transform: scale(1.15); }
+        /* Large External Monitors */
+        @media (min-height: 1200px) {
+            .responsive-game-scale { transform: scale(1.2); }
         }
       `}</style>
     </div>
