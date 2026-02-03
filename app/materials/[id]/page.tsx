@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 import { Material, Category } from '@/lib/types'
 import { ArrowLeft, ChevronLeft, ChevronRight, Volume2, Home, RotateCcw, BookOpen, RotateCw, Star, GraduationCap } from 'lucide-react'
+import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 
 export default function MaterialViewer({ params }: { params: Promise<{ id: string }> }) {
@@ -97,35 +98,30 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
       // Stop current speech to allow immediate restart
       window.speechSynthesis.cancel();
 
+      // Get available voices
+      const voices = window.speechSynthesis.getVoices();
+      
+      // Try to find a high-quality Arabic voice
+      const arabicVoice = voices.find(v => v.lang === 'ar-SA' && v.localService) ||
+                    voices.find(v => v.lang === 'ar-SA') || 
+                    voices.find(v => v.lang.startsWith('ar')) ||
+                    voices.find(v => v.name.toLowerCase().includes('arabic'));
+
+      if (!arabicVoice) {
+          toast.error("Suara Bahasa Arab tidak ditemukan di perangkatmu. Silakan instal data suara Bahasa Arab di pengaturan HP/Browser.");
+          return;
+      }
+
       // Small delay helps mobile browsers (especially Android) reset the engine
       setTimeout(() => {
           const utterance = new SpeechSynthesisUtterance(text);
           utterance.lang = 'ar-SA';
-          utterance.rate = 0.85; // Slightly slower for better clarity
+          utterance.voice = arabicVoice;
+          utterance.rate = 0.85; 
           utterance.pitch = 1;
 
-          // Get available voices
-          const voices = window.speechSynthesis.getVoices();
-          
-          // Debug voices on mobile if needed
-          // console.log('Available voices:', voices.map(v => v.lang));
-
-          // Try to find a high-quality Arabic voice
-          const arabicVoice = voices.find(v => v.lang === 'ar-SA' && v.localService) ||
-                        voices.find(v => v.lang === 'ar-SA') || 
-                        voices.find(v => v.lang.startsWith('ar')) ||
-                        voices.find(v => v.name.toLowerCase().includes('arabic'));
-
-          if (arabicVoice) {
-              utterance.voice = arabicVoice;
-          }
-
-          // Important for Android: setting lang is often better than picking a specific voice 
-          // that might not be compatible with the current engine.
-          utterance.lang = 'ar-SA';
-
           window.speechSynthesis.speak(utterance);
-      }, 20); // Reduced delay for better response
+      }, 20);
   }
 
   if (loading) {
