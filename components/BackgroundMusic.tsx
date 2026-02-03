@@ -45,7 +45,7 @@ export default function BackgroundMusic() {
             setIsPlaying(true)
             setIsBlocked(false)
         } catch (error) {
-            console.log("Autoplay blocked, waiting for interaction")
+            // Autoplay was blocked
             setIsPlaying(false)
             setIsBlocked(true)
         }
@@ -59,30 +59,41 @@ export default function BackgroundMusic() {
     }
   }, [shouldPlay, userPaused])
 
-  // Listener for first interaction (only if blocked)
+  // Listener for any interaction on the page to "unlock" the audio
   useEffect(() => {
-      if (!isBlocked || !shouldPlay || userPaused) return
+    // If not in a state where we should be playing, don't bother
+    if (!shouldPlay || userPaused || isPlaying) return
 
-      const unlock = () => {
-          const audio = audioRef.current
-          if (audio) {
-              audio.play()
+    const unlock = () => {
+        const audio = audioRef.current
+        if (audio && !isPlaying) {
+            audio.play()
                 .then(() => {
                     setIsPlaying(true)
                     setIsBlocked(false)
+                    // Remove all listeners once unlocked
+                    removeListeners()
                 })
-                .catch(e => console.error("Unlock failed", e))
-          }
-      }
+                .catch(e => {
+                    // Still blocked or other error
+                })
+        }
+    }
 
-      document.addEventListener('click', unlock, { once: true })
-      document.addEventListener('touchstart', unlock, { once: true })
+    const removeListeners = () => {
+        window.removeEventListener('click', unlock)
+        window.removeEventListener('touchstart', unlock)
+        window.removeEventListener('mousedown', unlock)
+        window.removeEventListener('keydown', unlock)
+    }
 
-      return () => {
-          document.removeEventListener('click', unlock)
-          document.removeEventListener('touchstart', unlock)
-      }
-  }, [isBlocked, shouldPlay, userPaused])
+    window.addEventListener('click', unlock)
+    window.addEventListener('touchstart', unlock)
+    window.addEventListener('mousedown', unlock)
+    window.addEventListener('keydown', unlock)
+
+    return () => removeListeners()
+  }, [shouldPlay, userPaused, isPlaying])
 
 
   const toggleMusic = () => {
