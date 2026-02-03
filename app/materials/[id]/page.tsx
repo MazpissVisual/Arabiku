@@ -276,7 +276,7 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
                             </div>
                             
                             {/* Tap Hint */}
-                            <div className="absolute bottom-6 text-[#8D6E63]/50 text-sm font-bold uppercase tracking-widest flex items-center gap-2 animate-pulse">
+                            <div className="absolute bottom-4 text-[#8D6E63]/50 text-sm font-bold uppercase tracking-widest flex items-center gap-2 animate-pulse">
                                 <RotateCw size={16} /> Balik Kartu
                             </div>
                         </div>
