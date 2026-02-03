@@ -1,77 +1,99 @@
 'use client';
 
 import Link from "next/link";
+import { Gamepad2, GraduationCap, PlayCircle, Lock } from "lucide-react";
 
 export default function Home() {
-
-
   return (
     <div className="h-screen overflow-hidden flex flex-col items-center justify-center p-4 relative bg-[url('/bg-main.jpg')] bg-cover bg-center bg-no-repeat">
-      {/* Overlay for better text readability if needed, keeping it subtle */}
+      {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-black/10 z-0"></div>
 
-      <main className="relative z-10 flex flex-col items-center justify-center w-full max-w-md gap-8">
+      <main className="relative z-10 flex flex-col items-center justify-center w-full max-w-sm gap-12">
         {/* Header / Logo Area */}
-        <div className="flex flex-col items-center mb-4">
-            <h1 className="text-6xl md:text-7xl font-extrabold text-[#FFF176] drop-shadow-[0_4px_0_#F57F17] tracking-tight mb-2 stroke-text">
+        <div className="flex flex-col items-center mb-4 text-center">
+            <h1 className="text-7xl md:text-8xl font-black text-[#FFF176] drop-shadow-[0_6px_0_#F57F17] tracking-tighter mb-4 stroke-text animate-pulse-slow">
                 Arabiku
             </h1>
-            <div className="bg-[#FFF9C4]/90 px-6 py-2 rounded-full border-4 border-[#FBC02D] shadow-lg transform -rotate-2">
-                <p className="text-lg font-bold text-[#E65100]">Belajar Bahasa Arab</p>
+            <div className="bg-[#FFF9C4]/90 px-8 py-2.5 rounded-[2rem] border-4 border-[#FBC02D] shadow-xl transform -rotate-1">
+                <p className="text-xl font-black text-[#E65100] uppercase tracking-widest">Belajar Bahasa Arab</p>
             </div>
         </div>
 
         {/* Menu Buttons Stack */}
-        <div className="flex flex-col w-full gap-5 px-6">
+        <div className="flex flex-col w-full gap-6 px-2">
             
-            <Link href="/materials" className="w-full btn-float">
-                <button className="w-full relative group transform transition-all duration-200 hover:scale-105 active:scale-95">
-                    <div className="absolute inset-0 bg-[#F57F17] rounded-full translate-y-2 group-active:translate-y-0 opacity-40 transition-all"></div>
-                    <div className="absolute inset-0 bg-[#FBC02D] rounded-full translate-y-1.5 border-b-4 border-[#F57F17] group-active:translate-y-0.5 group-active:border-b-0 transition-all"></div>
-                    <div className="relative bg-gradient-to-b from-[#FFF59D] to-[#FBC02D] px-6 py-4 rounded-full border-4 border-[#FFF9C4] text-[#E65100] font-black text-2xl uppercase tracking-wider shadow-lg flex items-center justify-center gap-3 group-active:translate-y-1 transition-all">
-                        <span className="drop-shadow-sm">Mulai Belajar</span>
+            {/* Start Learning Button */}
+            <Link href="/materials" className="w-full btn-float group">
+                <button className="w-full relative transform transition-all duration-200 group-hover:scale-105 active:scale-95 text-left">
+                    <div className="absolute inset-0 bg-[#E65100] rounded-2xl translate-y-2 opacity-50 group-hover:opacity-70 transition-all"></div>
+                    <div className="absolute inset-0 bg-[#FBC02D] rounded-2xl translate-y-1.5 border-b-6 border-[#E65100]"></div>
+                    
+                    <div className="relative bg-gradient-to-b from-[#FFFDE7] to-[#FFF9C4] p-5 rounded-2xl border-4 border-white flex items-center justify-between shadow-inner">
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white shadow-md border-2 border-white/50">
+                                <GraduationCap size={28} strokeWidth={2.5} />
+                            </div>
+                            <span className="text-[#E65100] font-black text-2xl uppercase tracking-tighter">Mulai Belajar</span>
+                        </div>
+                        <PlayCircle size={32} className="text-[#FBC02D] group-hover:translate-x-1 transition-transform" />
+                        
+                        {/* Shine Effect */}
+                        <div className="absolute top-2 left-4 w-12 h-6 bg-white/40 rounded-full rotate-[-20deg] blur-[2px]"></div>
                     </div>
-                    {/* Shine Effect */}
-                    <div className="absolute top-2 right-10 w-8 h-3 bg-white/40 rounded-full rotate-[-20deg] blur-[1px]"></div>
                 </button>
             </Link>
 
-            <Link href="/quizzes" className="w-full btn-float-delay-1">
-                <button className="w-full relative group transform transition-all duration-200 hover:scale-105 active:scale-95">
-                    <div className="absolute inset-0 bg-[#F57F17] rounded-full translate-y-2 group-active:translate-y-0 opacity-40 transition-all"></div>
-                    <div className="absolute inset-0 bg-[#FBC02D] rounded-full translate-y-1.5 border-b-4 border-[#F57F17] group-active:translate-y-0.5 group-active:border-b-0 transition-all"></div>
-                    <div className="relative bg-gradient-to-b from-[#FFF59D] to-[#FBC02D] px-6 py-4 rounded-full border-4 border-[#FFF9C4] text-[#E65100] font-black text-2xl uppercase tracking-wider shadow-lg flex items-center justify-center gap-3 group-active:translate-y-1 transition-all">
-                        <span className="drop-shadow-sm">Latihan Quiz</span>
+            {/* Quiz Button */}
+            <Link href="/quizzes" className="w-full btn-float-delay-1 group">
+                <button className="w-full relative transform transition-all duration-200 group-hover:scale-105 active:scale-95 text-left">
+                    <div className="absolute inset-0 bg-[#E65100] rounded-2xl translate-y-2 opacity-50 group-hover:opacity-70 transition-all"></div>
+                    <div className="absolute inset-0 bg-[#FBC02D] rounded-2xl translate-y-1.5 border-b-6 border-[#E65100]"></div>
+                    
+                    <div className="relative bg-gradient-to-b from-[#FFFDE7] to-[#FFF9C4] p-5 rounded-2xl border-4 border-white flex items-center justify-between shadow-inner">
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center text-white shadow-md border-2 border-white/50">
+                                <Gamepad2 size={28} strokeWidth={2.5} />
+                            </div>
+                            <span className="text-[#E65100] font-black text-2xl uppercase tracking-tighter">Latihan Quiz</span>
+                        </div>
+                        <PlayCircle size={32} className="text-[#FBC02D] group-hover:translate-x-1 transition-transform" />
+                        
+                        {/* Shine Effect */}
+                        <div className="absolute top-2 left-4 w-12 h-6 bg-white/40 rounded-full rotate-[-20deg] blur-[2px]"></div>
                     </div>
-                     {/* Shine Effect */}
-                     <div className="absolute top-2 right-10 w-8 h-3 bg-white/40 rounded-full rotate-[-20deg] blur-[1px]"></div>
                 </button>
             </Link>
 
-             {/* Tutorial Button (Disabled/Coming Soon style) */}
-            <div className="w-full relative opacity-90 cursor-not-allowed grayscale-[0.3] btn-float-delay-2">
-                <div className="absolute inset-0 bg-[#F57F17] rounded-full translate-y-2 opacity-40"></div>
-                <div className="absolute inset-0 bg-[#FBC02D] rounded-full translate-y-1.5 border-b-4 border-[#F57F17]"></div>
-                <div className="relative bg-gradient-to-b from-[#FFF59D] to-[#FBC02D] px-6 py-4 rounded-full border-4 border-[#FFF9C4] text-[#E65100] font-black text-2xl uppercase tracking-wider shadow-lg flex items-center justify-center gap-3">
-                    Tutorial
-                    <span className="text-[10px] absolute top-[-5px] right-[-5px] text-white bg-red-500 border-2 border-white px-2 py-0.5 rounded-full shadow-sm animate-bounce">Coming Soon</span>
+            {/* Tutorial Button (Disabled) */}
+            <div className="w-full relative opacity-80 cursor-not-allowed group btn-float-delay-2 grayscale-[0.5]">
+                <div className="absolute inset-0 bg-gray-400 rounded-2xl translate-y-2"></div>
+                <div className="absolute inset-0 bg-gray-300 rounded-2xl translate-y-1.5 border-b-6 border-gray-400"></div>
+                <div className="relative bg-white/90 p-5 rounded-2xl border-4 border-gray-100 flex items-center justify-between shadow-inner">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center text-gray-400 border-2 border-white/50">
+                            <Lock size={24} />
+                        </div>
+                        <span className="text-gray-400 font-black text-2xl uppercase tracking-tighter">Tutorial</span>
+                    </div>
+                    <span className="text-[10px] font-black text-white bg-red-500 px-2 py-0.5 rounded-full border-2 border-white shadow-sm rotate-12">SOON</span>
                 </div>
             </div>
-            
-             {/* Exit Button (Optional, redirects to Google or closes tab? For web, maybe just Home) */}
-            {/* <div className="w-full">...</div> */}
         </div>
 
         {/* Footer / Admin Link */}
-        <div className="mt-8">
+        <div className="mt-4">
             <Link href="/admin/login">
-                <button className="text-white/80 font-bold hover:text-white hover:underline text-sm shadow-black drop-shadow-md">
-                   Login Guru / Admin
+                <button className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-6 py-2 rounded-full border border-white/30 text-white font-bold text-sm transition-all shadow-lg active:scale-95">
+                   Login Guru / Admin 🔐
                 </button>
             </Link>
         </div>
       </main>
-      
+
+      <style jsx global>{`
+        .border-b-6 { border-bottom-width: 6px; }
+      `}</style>
     </div>
   );
 }
