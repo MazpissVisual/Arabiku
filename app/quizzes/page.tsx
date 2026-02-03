@@ -98,7 +98,7 @@ export default function QuizzesIndex() {
                                         <h3 className="text-base md:text-lg font-black text-[#E65100] uppercase tracking-tight drop-shadow-sm group-hover:text-[#BF360C] transition-colors leading-tight mb-1 line-clamp-2">
                                             {quiz.title}
                                         </h3>
-                                        <p className="text-[#8D6E63] text-[10px] md:text-xs font-bold leading-tight line-clamp-2 opacity-80 px-2">
+                                        <p className="text-[#5D4037] text-[10px] md:text-xs font-bold leading-tight line-clamp-2 px-2">
                                             {quiz.description || "Tantang dirimu dengan kuis ini dan kumpulkan skor sebanyak-banyaknya!"}
                                         </p>
                                     </div>

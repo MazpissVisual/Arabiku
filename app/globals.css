@@ -19,6 +19,10 @@ body {
   overflow-x: hidden;
 }
 
+.uppercase {
+  letter-spacing: 0.03em;
+}
+
 @theme {
   --animate-pulse-slow: pulse-slow 3s infinite;
   --animate-float: float 6s ease-in-out infinite;

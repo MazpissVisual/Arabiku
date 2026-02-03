@@ -74,7 +74,7 @@ export default function MaterialsIndex() {
                              <div className="p-5 pt-3 flex flex-col items-center flex-1 text-center bg-gradient-to-b from-[#FFF9C4] to-[#FFF176]/30">
                                  <div className="mb-4 flex-1 flex flex-col justify-center">
                                      <h2 className="text-base md:text-xl font-black text-[#E65100] uppercase tracking-tight drop-shadow-sm group-hover:text-[#BF360C] transition-colors leading-tight mb-1 line-clamp-2">{cat.name}</h2>
-                                     <p className="text-[#8D6E63] text-xs font-bold leading-tight line-clamp-2 opacity-80 px-2">
+                                     <p className="text-[#5D4037] text-xs font-bold leading-tight line-clamp-2 px-2">
                                          {cat.description || "Mari belajar kosa kata baru bersama Arabiku! 🚀"}
                                      </p>
                                  </div>
