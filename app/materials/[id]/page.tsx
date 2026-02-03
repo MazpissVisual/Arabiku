@@ -253,14 +253,14 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
                         {/* FRONT: Image */}
                         <div 
                             className={cn(
-                                "absolute inset-0 w-full h-full bg-white rounded-[2.5rem] shadow-xl border-[6px] border-[#8D6E63] overflow-hidden [backface-visibility:hidden] flex items-center justify-center p-6 md:p-8 bg-gradient-to-br from-white to-[#FFF3E0]",
+                                "absolute inset-0 w-full h-full bg-white rounded-[2.5rem] shadow-xl border-[6px] border-[#8D6E63] overflow-hidden [backface-visibility:hidden] bg-gradient-to-br from-white to-[#FFF3E0]",
                                 isFlipped ? "pointer-events-none" : ""
                             )}
                         >
-                            <div className="relative w-full h-full p-4 flex items-center justify-center">
+                            <div className="relative w-full h-[82%] sm:h-[85%] overflow-hidden border-b-[4px] border-[#8D6E63]/10">
                                 {/* Decorative floating icon */}
-                                <div className="absolute top-0 right-0 p-3 bg-orange-100 rounded-full text-orange-500 opacity-50">
-                                    <BookOpen size={24} />
+                                <div className="absolute top-4 right-4 p-2.5 bg-white/80 backdrop-blur-sm rounded-full text-orange-500 shadow-md z-10">
+                                    <BookOpen size={20} className="sm:size-6" />
                                 </div>
                                 
                                 {currentMaterial.image_url ? (
@@ -268,16 +268,20 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
                                     <img 
                                         src={currentMaterial.image_url} 
                                         alt={currentMaterial.title} 
-                                        className="w-full h-full object-contain drop-shadow-lg transform transition-transform group-hover:scale-105 duration-500" 
+                                        className="w-full h-full object-cover transform transition-transform group-hover:scale-105 duration-700" 
                                     />
                                 ) : (
-                                    <div className="text-gray-300 text-8xl font-black opacity-20">?</div>
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                        <div className="text-gray-300 text-8xl font-black opacity-20">?</div>
+                                    </div>
                                 )}
                             </div>
                             
-                            {/* Tap Hint */}
-                            <div className="absolute bottom-3 text-[#8D6E63]/50 text-[10px] sm:text-sm font-bold uppercase tracking-widest flex items-center gap-2 animate-pulse">
-                                <RotateCw size={14} className="sm:size-4" /> Balik Kartu
+                            {/* Tap Hint - Positioned in the remaining bottom space */}
+                            <div className="absolute bottom-0 left-0 right-0 h-[18%] sm:h-[15%] flex items-center justify-center">
+                                <div className="text-[#8D6E63]/60 text-[10px] sm:text-sm font-black uppercase tracking-widest flex items-center gap-2 animate-pulse">
+                                    <RotateCw size={14} className="sm:size-4" /> Balik Kartu
+                                </div>
                             </div>
                         </div>
 
