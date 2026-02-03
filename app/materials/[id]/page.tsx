@@ -4,7 +4,7 @@ import React, { useEffect, useState, use } from 'react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 import { Material, Category } from '@/lib/types'
-import { ArrowLeft, ChevronLeft, ChevronRight, Volume2, Home, RotateCcw, BookOpen, RotateCw } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Volume2, Home, RotateCcw, BookOpen, RotateCw, Star, GraduationCap } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export default function MaterialViewer({ params }: { params: Promise<{ id: string }> }) {
@@ -163,32 +163,49 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
         
         {/* VIEW STATE: INTRO */}
         {viewState === 'intro' && (
-            <div className="bg-white rounded-[2.5rem] shadow-2xl p-8 text-center max-w-lg w-full border-4 border-white animate-in zoom-in duration-300 relative">
-                 {/* Decorative Top Border */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-[#FFF9C4] border-8 border-white rounded-full flex items-center justify-center shadow-md z-10">
-                     <span className="text-5xl font-black text-[#E65100] drop-shadow-sm">{category?.name.charAt(0)}</span>
-                </div>
-                
-                <div className="mt-12 space-y-4">
-                     <div>
-                        <h2 className="text-gray-400 font-bold uppercase tracking-widest text-sm mb-1">Bab:</h2>
-                        <h1 className="text-4xl font-extrabold text-[#37474F] tracking-tight">{category?.name}</h1>
-                     </div>
+            <div className="relative z-10 w-full max-w-sm animate-in zoom-in duration-300">
+                {/* 3D Card Container */}
+                <div className="relative group">
+                    {/* Shadow/Depth */}
+                    <div className="absolute inset-0 bg-[#E65100] rounded-[3rem] translate-y-3 opacity-60"></div>
+                    <div className="absolute inset-0 bg-[#FFB300] rounded-[3rem] translate-y-2 border-b-8 border-[#E65100]"></div>
                     
-                    <p className="text-gray-600 text-lg leading-relaxed font-medium bg-orange-50/50 p-4 rounded-2xl border border-orange-100">
-                        {category?.description || "Selamat datang! Di bab ini kita akan mempelajari kosa kata baru yang menarik. Siapkan dirimu!"}
-                    </p>
-
-                    <div className="pt-4">
-                        <button 
-                            onClick={() => setViewState('playing')}
-                            className="w-full relative group transform transition-all duration-100 active:scale-95"
-                        >
-                            <div className="absolute inset-0 bg-[#D84315] rounded-2xl translate-y-2 opacity-100 transition-all"></div>
-                            <div className="relative bg-[#FF7043] hover:bg-[#FF5722] text-white py-4 rounded-2xl font-black text-xl border-b-4 border-[#BF360C] shadow-lg flex items-center justify-center gap-2 uppercase tracking-wider group-active:translate-y-2 group-active:border-b-0 transition-all">
-                                Mulai Belajar
+                    {/* Main Card Face */}
+                    <div className="relative bg-[#FFF9C4] rounded-[3rem] border-4 border-white shadow-inner overflow-hidden">
+                        
+                        {/* Top Section with Star Badge */}
+                        <div className="h-32 bg-[#FFFDE7] flex items-center justify-center relative border-b-2 border-[#FBC02D]/20">
+                            <div className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full border-2 border-[#FBC02D] flex items-center justify-center shadow-sm">
+                                <Star size={20} className="text-[#FBC02D]" fill="currentColor" />
                             </div>
-                        </button>
+                            
+                            {/* Central Icon Circle */}
+                            <div className="w-24 h-24 bg-[#FBC02D] rounded-full flex items-center justify-center border-4 border-white shadow-lg z-10">
+                                <GraduationCap size={44} className="text-white drop-shadow-md" strokeWidth={2.5} />
+                            </div>
+                        </div>
+
+                        {/* Bottom Section with Content */}
+                        <div className="p-8 pt-6 flex flex-col items-center">
+                            <h2 className="text-[#F57F17] font-black uppercase tracking-widest text-xs mb-1">Materi Belajar</h2>
+                            <h1 className="text-3xl md:text-4xl font-black text-[#E65100] uppercase tracking-tight text-center mb-3">
+                                {category?.name}
+                            </h1>
+                            
+                            <p className="text-[#8D6E63] text-sm font-bold leading-relaxed text-center mb-8 px-2">
+                                {category?.description || "Siapkan dirimu untuk mempelajari kosa kata baru yang seru dan bermanfaat!"}
+                            </p>
+
+                            <button 
+                                onClick={() => setViewState('playing')}
+                                className="w-full relative group transform transition-all duration-100 active:scale-95"
+                            >
+                                <div className="absolute inset-0 bg-[#D84315] rounded-2xl translate-y-1.5 border-b-4 border-[#BF360C]"></div>
+                                <div className="relative bg-[#FF7043] hover:bg-[#FF5722] text-white py-4 rounded-2xl font-black text-xl shadow-lg flex items-center justify-center gap-2 uppercase tracking-widest transition-all">
+                                    MULAI BELAJAR 🚀
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -352,10 +369,10 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
                         >
                              <button 
                                 onClick={(e) => { e.stopPropagation(); speakArabic(currentMaterial.arabic_text); }}
-                                className="absolute top-6 right-6 p-4 text-white bg-[#E65100] rounded-full shadow-lg border-4 border-white hover:bg-[#EF6C00] transition-transform active:scale-95 z-20"
+                                className="absolute top-4 right-4 p-3 text-white bg-[#E65100] rounded-full shadow-lg border-2 border-white hover:bg-[#EF6C00] transition-transform active:scale-95 z-20"
                                 title="Dengarkan"
                              >
-                                <Volume2 size={28} />
+                                <Volume2 size={20} />
                              </button>
 
                             <div className="flex-1 flex flex-col justify-center items-center w-full">

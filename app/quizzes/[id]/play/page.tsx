@@ -181,7 +181,7 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
                                 onClick={handleStart}
                                 className="w-full bg-[#E65100] hover:bg-[#BF360C] text-white py-4 rounded-2xl font-black text-xl shadow-lg transform active:scale-95 transition-all uppercase tracking-widest border-b-4 border-black/20"
                               >
-                                  MULAI SEKARANG
+                                  MULAI BELAJAR 🚀
                               </button>
                               
                               <Link href="/quizzes" className="block text-[#F57F17] font-black text-base hover:text-[#E65100] transition-colors pt-1">
