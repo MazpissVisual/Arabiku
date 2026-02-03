@@ -70,9 +70,14 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
   }
 
   const speakArabic = (text: string) => {
+      if (typeof window === 'undefined' || !window.speechSynthesis) return;
+      
+      // Cancel any ongoing speech for better response on mobile
+      window.speechSynthesis.cancel();
+
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ar-SA'; // Arabic Saudi Arabia
-      utterance.rate = 0.9; // Slightly slower
+      utterance.lang = 'ar-SA'; 
+      utterance.rate = 0.9;
       window.speechSynthesis.speak(utterance);
   }
 
@@ -273,17 +278,17 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
                                 )}
                             </div>
 
-                            <div className="flex-1 flex flex-col justify-center text-center">
+                            <div className="flex-1 flex flex-col justify-center text-center py-2">
                                 {currentMaterial.example_sentence_2 ? (
                                     <>
-                                        <p className="text-3xl md:text-4xl font-black text-[#3E2723] leading-relaxed font-arabic mb-6" dir="rtl">
+                                        <p className="text-2xl sm:text-3xl md:text-4xl font-black text-[#3E2723] leading-tight font-arabic mb-3 sm:mb-6" dir="rtl">
                                             {currentMaterial.example_sentence_2}
                                         </p>
-                                        <div className="bg-white/50 p-4 rounded-xl border border-[#FFE0B2]">
-                                            <p className="text-lg font-bold text-[#E65100] mb-2 italic">
+                                        <div className="bg-white/50 p-2.5 sm:p-4 rounded-xl border border-[#FFE0B2]">
+                                            <p className="text-sm sm:text-lg font-bold text-[#E65100] mb-0.5 sm:mb-2 italic">
                                                 {currentMaterial.example_reading_2}
                                             </p>
-                                            <p className="text-[#5D4037] font-medium text-lg">
+                                            <p className="text-[#5D4037] font-medium text-xs sm:text-base">
                                                 "{currentMaterial.example_meaning_2 || '-'}"
                                             </p>
                                         </div>
@@ -359,17 +364,17 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
                                 </button>
                             </div>
 
-                            <div className="flex-1 flex flex-col justify-center text-center">
+                            <div className="flex-1 flex flex-col justify-center text-center py-2">
                                 {currentMaterial.example_sentence ? (
                                     <>
-                                        <p className="text-3xl md:text-4xl font-black text-[#3E2723] leading-relaxed font-arabic mb-6" dir="rtl">
+                                        <p className="text-2xl sm:text-3xl md:text-4xl font-black text-[#3E2723] leading-tight font-arabic mb-3 sm:mb-6" dir="rtl">
                                             {currentMaterial.example_sentence}
                                         </p>
-                                        <div className="bg-white/50 p-4 rounded-xl border border-[#FFE0B2]">
-                                            <p className="text-lg font-bold text-[#E65100] mb-2 italic">
+                                        <div className="bg-white/50 p-2.5 sm:p-4 rounded-xl border border-[#FFE0B2]">
+                                            <p className="text-sm sm:text-lg font-bold text-[#E65100] mb-0.5 sm:mb-2 italic">
                                                 {currentMaterial.example_reading}
                                             </p>
-                                            <p className="text-[#5D4037] font-medium text-lg">
+                                            <p className="text-[#5D4037] font-medium text-xs sm:text-base">
                                                 "{currentMaterial.example_meaning || '-'}"
                                             </p>
                                         </div>
