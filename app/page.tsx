@@ -9,19 +9,19 @@ export default function Home() {
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-black/10 z-0 fixed"></div>
 
-      <main className="relative z-10 flex flex-col items-center w-full max-w-sm gap-1 md:gap-8 scale-[0.65] sm:scale-[0.8] md:scale-90 lg:scale-100 origin-center transition-transform duration-500">
+      <main className="relative z-10 flex flex-col items-center w-full max-w-sm gap-1 md:gap-6 responsive-game-scale origin-center transition-transform duration-500">
         {/* Header / Logo Area */}
-        <div className="flex flex-col items-center mb-0 md:mb-4 text-center">
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-black text-[#FFF176] drop-shadow-[0_4px_0_#F57F17] md:drop-shadow-[0_6px_0_#F57F17] tracking-tighter mb-0 md:mb-4 stroke-text animate-pulse-slow">
+        <div className="flex flex-col items-center mb-0 md:mb-2 text-center">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-black text-[#FFF176] drop-shadow-[0_4px_0_#F57F17] md:drop-shadow-[0_6px_0_#F57F17] tracking-tighter mb-0 md:mb-2 stroke-text animate-pulse-slow">
                 Arabiku
             </h1>
-            <div className="bg-[#FFF9C4]/90 px-4 py-1 md:px-8 md:py-2.5 rounded-[2rem] border-2 md:border-4 border-[#FBC02D] shadow-xl transform -rotate-1">
+            <div className="bg-[#FFF9C4]/90 px-4 py-1 md:px-8 md:py-2 rounded-[2rem] border-2 md:border-4 border-[#FBC02D] shadow-xl transform -rotate-1">
                 <p className="text-[10px] sm:text-base md:text-xl font-black text-[#E65100] uppercase tracking-widest">Belajar Bahasa Arab</p>
             </div>
         </div>
 
         {/* Menu Buttons Stack */}
-        <div className="flex flex-col w-full gap-2 md:gap-6 px-1">
+        <div className="flex flex-col w-full gap-2 md:gap-4 px-1">
             
             {/* Start Learning Button */}
             <Link href="/materials" className="w-full btn-float group">
@@ -29,7 +29,7 @@ export default function Home() {
                     <div className="absolute inset-0 bg-[#E65100] rounded-2xl translate-y-1.5 opacity-50 group-hover:opacity-70 transition-all"></div>
                     <div className="absolute inset-0 bg-[#FBC02D] rounded-2xl translate-y-1 border-b-4 md:border-b-6 border-[#E65100]"></div>
                     
-                    <div className="relative bg-gradient-to-b from-[#FFFDE7] to-[#FFF9C4] p-3 md:p-5 rounded-2xl border-2 md:border-4 border-white flex items-center justify-between shadow-inner">
+                    <div className="relative bg-gradient-to-b from-[#FFFDE7] to-[#FFF9C4] p-3 md:p-4 rounded-2xl border-2 md:border-4 border-white flex items-center justify-between shadow-inner">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 md:w-12 md:h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white shadow-md border-2 border-white/50">
                                 <GraduationCap size={20} className="md:size-7" strokeWidth={2.5} />
@@ -50,7 +50,7 @@ export default function Home() {
                     <div className="absolute inset-0 bg-[#E65100] rounded-2xl translate-y-1.5 opacity-50 group-hover:opacity-70 transition-all"></div>
                     <div className="absolute inset-0 bg-[#FBC02D] rounded-2xl translate-y-1 border-b-4 md:border-b-6 border-[#E65100]"></div>
                     
-                    <div className="relative bg-gradient-to-b from-[#FFFDE7] to-[#FFF9C4] p-3 md:p-5 rounded-2xl border-2 md:border-4 border-white flex items-center justify-between shadow-inner">
+                    <div className="relative bg-gradient-to-b from-[#FFFDE7] to-[#FFF9C4] p-3 md:p-4 rounded-2xl border-2 md:border-4 border-white flex items-center justify-between shadow-inner">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 md:w-12 md:h-12 bg-blue-500 rounded-xl flex items-center justify-center text-white shadow-md border-2 border-white/50">
                                 <Gamepad2 size={20} className="md:size-7" strokeWidth={2.5} />
@@ -69,7 +69,7 @@ export default function Home() {
             <div className="w-full relative opacity-80 cursor-not-allowed group btn-float-delay-2 grayscale-[0.5]">
                 <div className="absolute inset-0 bg-gray-400 rounded-2xl translate-y-1.5"></div>
                 <div className="absolute inset-0 bg-gray-300 rounded-2xl translate-y-1 border-b-4 md:border-b-6 border-gray-400"></div>
-                <div className="relative bg-white/90 p-3 md:p-5 rounded-2xl border-2 md:border-4 border-gray-100 flex items-center justify-between shadow-inner">
+                <div className="relative bg-white/90 p-3 md:p-4 rounded-2xl border-2 md:border-4 border-gray-100 flex items-center justify-between shadow-inner">
                     <div className="flex items-center gap-3">
                         <div className="w-9 h-9 md:w-12 md:h-12 bg-gray-200 rounded-xl flex items-center justify-center text-gray-400 border-2 border-white/50">
                             <Lock size={18} className="md:size-6" />
@@ -81,7 +81,7 @@ export default function Home() {
             </div>
 
             {/* Footer / Admin Link */}
-            <div className="mt-1 md:mt-4 text-center">
+            <div className="mt-1 md:mt-2 text-center">
                 <Link href="/admin/login">
                     <button className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-1.5 md:px-6 md:py-2 rounded-full border border-white/30 text-white font-bold text-[10px] md:text-sm transition-all shadow-lg active:scale-95">
                        Login Guru / Admin 🔐
@@ -93,6 +93,32 @@ export default function Home() {
 
       <style jsx global>{`
         .border-b-6 { border-bottom-width: 6px; }
+        
+        /* Height-based responsive scaling */
+        .responsive-game-scale {
+            transform: scale(0.65);
+        }
+
+        @media (min-height: 600px) {
+            .responsive-game-scale { transform: scale(0.75); }
+        }
+
+        @media (min-height: 720px) {
+            .responsive-game-scale { transform: scale(0.85); }
+        }
+
+        @media (min-height: 850px) {
+            .responsive-game-scale { transform: scale(0.95); }
+        }
+
+        @media (min-height: 1000px) {
+            .responsive-game-scale { transform: scale(1.1); }
+        }
+
+        /* Desktop specific tweak for large monitors with enough width */
+        @media (min-width: 1400px) and (min-height: 800px) {
+            .responsive-game-scale { transform: scale(1.15); }
+        }
       `}</style>
     </div>
   );
