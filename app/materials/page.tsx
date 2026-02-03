@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 import { Category } from '@/lib/types'
-import { ArrowLeft, BookOpen, Loader2 } from 'lucide-react'
+import { ArrowLeft, BookOpen, Loader2, GraduationCap } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export default function MaterialsIndex() {
@@ -59,11 +59,11 @@ export default function MaterialsIndex() {
                         <div className="absolute inset-0 bg-[#FFB300] rounded-[2.5rem] translate-y-2 border-b-8 border-[#E65100]"></div>
                         
                         {/* Main Card Content */}
-                        <div className="relative bg-[#FFF9C4] border-4 border-white rounded-[2.5rem] overflow-hidden flex flex-col h-64 shadow-inner">
+                        <div className="relative bg-[#FFF9C4] border-4 border-white rounded-[2.5rem] overflow-hidden flex flex-col h-80 shadow-inner">
                              {/* Top Banner Area */}
-                             <div className="h-1/2 bg-[#FFFDE7] flex items-center justify-center relative border-b-2 border-[#FBC02D]/20 transition-colors group-hover:bg-white/80">
+                             <div className="h-[45%] bg-[#FFFDE7] flex items-center justify-center relative border-b-2 border-[#FBC02D]/20 transition-colors group-hover:bg-white/80">
                                  <div className="w-20 h-20 bg-[#FBC02D] rounded-full flex items-center justify-center text-white border-4 border-white shadow-lg group-hover:scale-110 group-hover:rotate-[10deg] transition-all duration-300">
-                                     <span className="text-4xl font-black drop-shadow-md">{cat.name.charAt(0)}</span>
+                                     <GraduationCap size={44} strokeWidth={2.5} className="drop-shadow-md" />
                                  </div>
                                  
                                  {/* Decorative Shine */}
@@ -71,11 +71,23 @@ export default function MaterialsIndex() {
                              </div>
 
                              {/* Bottom Content Area */}
-                             <div className="p-5 flex flex-col items-center justify-center flex-1 text-center bg-gradient-to-b from-[#FFF9C4] to-[#FFF176]/30">
-                                 <h2 className="text-xl md:text-2xl font-black text-[#E65100] uppercase tracking-tight drop-shadow-sm group-hover:text-[#BF360C] transition-colors leading-tight mb-1 line-clamp-1">{cat.name}</h2>
-                                 <p className="text-[#8D6E63] text-xs font-bold leading-tight line-clamp-2 opacity-80 px-2">
-                                     {cat.description || "Mari belajar kosa kata baru bersama Arabiku! 🚀"}
-                                 </p>
+                             <div className="p-5 pt-3 flex flex-col items-center flex-1 text-center bg-gradient-to-b from-[#FFF9C4] to-[#FFF176]/30">
+                                 <div className="mb-4 flex-1 flex flex-col justify-center">
+                                     <h2 className="text-xl md:text-2xl font-black text-[#E65100] uppercase tracking-tight drop-shadow-sm group-hover:text-[#BF360C] transition-colors leading-tight mb-1 line-clamp-1">{cat.name}</h2>
+                                     <p className="text-[#8D6E63] text-xs font-bold leading-tight line-clamp-2 opacity-80 px-2">
+                                         {cat.description || "Mari belajar kosa kata baru bersama Arabiku! 🚀"}
+                                     </p>
+                                 </div>
+
+                                 {/* Action Button */}
+                                 <div className="w-full mt-auto">
+                                     <div className="relative inline-block w-full">
+                                         <div className="absolute inset-0 bg-[#E65100] rounded-xl translate-y-1 opacity-40"></div>
+                                         <button className="relative w-full bg-[#F57F17] group-hover:bg-[#E65100] text-white text-[10px] md:text-xs font-black py-2.5 rounded-xl border-b-4 border-black/10 transition-all active:translate-y-1 uppercase tracking-wider">
+                                             MULAI BELAJAR 🚀
+                                         </button>
+                                     </div>
+                                 </div>
                              </div>
                         </div>
                     </Link>
