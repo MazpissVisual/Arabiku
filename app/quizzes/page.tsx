@@ -65,27 +65,27 @@ export default function QuizzesIndex() {
                 </div>
             ) : (
                 quizzes.map((quiz) => (
-                    <div key={quiz.id} className="flex-shrink-0 w-[82vw] sm:w-[350px] md:w-[320px] snap-center h-full">
-                        <Link href={`/quizzes/${quiz.id}/play`} className="group relative block w-full transform transition-all duration-300 hover:scale-105 active:scale-95 h-full">
+                    <div key={quiz.id} className="flex-shrink-0 w-[82vw] sm:w-[320px] md:w-[320px] snap-center">
+                        <Link href={`/quizzes/${quiz.id}/play`} className="group relative block w-full transform transition-all duration-300 hover:scale-105 active:scale-95">
                             {/* Shadow/Depth */}
                             <div className="absolute inset-0 bg-[#E65100] rounded-[2.5rem] translate-y-3 opacity-60"></div>
                             <div className="absolute inset-0 bg-[#FFB300] rounded-[2.5rem] translate-y-2 border-b-8 border-[#E65100]"></div>
                             
                             {/* Main Card Content */}
-                            <div className="relative bg-[#FFF9C4] border-4 border-white rounded-[2.5rem] overflow-hidden flex flex-col h-80 shadow-inner">
+                            <div className="relative bg-[#FFF9C4] border-4 border-white rounded-[2.5rem] overflow-hidden flex flex-col h-[340px] shadow-inner">
                                 {/* Top Banner Area */}
                                 <div className="h-[45%] bg-[#FFFDE7] relative overflow-hidden flex items-center justify-center border-b-2 border-[#FBC02D]/20 transition-colors group-hover:bg-white/80">
                                     {quiz.thumbnail_url ? (
                                         // eslint-disable-next-line @next/next/no-img-element
                                         <img src={quiz.thumbnail_url} alt={quiz.title} className="w-full h-full object-cover" />
                                     ) : (
-                                        <div className="w-20 h-20 bg-[#FBC02D] rounded-full flex items-center justify-center text-white border-4 border-white shadow-lg group-hover:scale-110 group-hover:rotate-[10deg] transition-all duration-300">
-                                            <Gamepad2 size={44} strokeWidth={2.5} className="drop-shadow-md" />
+                                        <div className="w-16 h-16 md:w-20 md:h-20 bg-[#FBC02D] rounded-full flex items-center justify-center text-white border-4 border-white shadow-lg group-hover:scale-110 group-hover:rotate-[10deg] transition-all duration-300">
+                                            <Gamepad2 className="w-8 h-8 md:w-10 md:h-10" strokeWidth={2.5} />
                                         </div>
                                     )}
                                     
-                                    <div className="absolute top-4 right-4 bg-white/90 p-2 rounded-full shadow-md text-[#FBC02D]">
-                                        <Star size={20} fill="currentColor" />
+                                    <div className="absolute top-4 right-4 bg-white/90 p-1.5 md:p-2 rounded-full shadow-md text-[#FBC02D]">
+                                        <Star size={16} className="md:size-5" fill="currentColor" />
                                     </div>
 
                                     {/* Decorative Shine */}
@@ -93,12 +93,12 @@ export default function QuizzesIndex() {
                                 </div>
 
                                 {/* Bottom Content Area */}
-                                <div className="p-5 pt-3 flex flex-col items-center flex-1 text-center bg-gradient-to-b from-[#FFF9C4] to-[#FFF176]/30">
+                                <div className="p-4 md:p-5 pt-3 flex flex-col items-center flex-1 text-center bg-gradient-to-b from-[#FFF9C4] to-[#FFF176]/30">
                                     <div className="mb-4 flex-1 flex flex-col justify-center">
-                                        <h3 className="text-xl md:text-2xl font-black text-[#E65100] uppercase tracking-tight drop-shadow-sm group-hover:text-[#BF360C] transition-colors leading-tight mb-1 line-clamp-1">
+                                        <h3 className="text-lg md:text-2xl font-black text-[#E65100] uppercase tracking-tight drop-shadow-sm group-hover:text-[#BF360C] transition-colors leading-tight mb-1 line-clamp-1">
                                             {quiz.title}
                                         </h3>
-                                        <p className="text-[#8D6E63] text-xs font-bold leading-tight line-clamp-2 opacity-80 px-2">
+                                        <p className="text-[#8D6E63] text-[10px] md:text-xs font-bold leading-tight line-clamp-2 opacity-80 px-2">
                                             {quiz.description || "Tantang dirimu dengan kuis ini dan kumpulkan skor sebanyak-banyaknya!"}
                                         </p>
                                     </div>

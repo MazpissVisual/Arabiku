@@ -73,34 +73,59 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
     }
   }
 
+  // Pre-load voices for mobile/Android
+  useEffect(() => {
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+          const loadVoices = () => {
+              window.speechSynthesis.getVoices();
+          };
+          loadVoices();
+          if (window.speechSynthesis.onvoiceschanged !== undefined) {
+              window.speechSynthesis.onvoiceschanged = loadVoices;
+          }
+      }
+      return () => {
+          if (typeof window !== 'undefined' && window.speechSynthesis) {
+              window.speechSynthesis.cancel();
+          }
+      };
+  }, []);
+
   const speakArabic = (text: string) => {
       if (typeof window === 'undefined' || !window.speechSynthesis) return;
       
-      // Stop current speech
+      // Stop current speech to allow immediate restart
       window.speechSynthesis.cancel();
 
-      // Small delay helps mobile browsers reset the engine
+      // Small delay helps mobile browsers (especially Android) reset the engine
       setTimeout(() => {
           const utterance = new SpeechSynthesisUtterance(text);
-          
+          utterance.lang = 'ar-SA';
+          utterance.rate = 0.85; // Slightly slower for better clarity
+          utterance.pitch = 1;
+
           // Get available voices
           const voices = window.speechSynthesis.getVoices();
           
-          // Try to find a specific Arabic voice
-          const arabicVoice = voices.find(v => v.lang.includes('ar-SA')) || 
-                        voices.find(v => v.lang.includes('ar')) ||
+          // Debug voices on mobile if needed
+          // console.log('Available voices:', voices.map(v => v.lang));
+
+          // Try to find a high-quality Arabic voice
+          const arabicVoice = voices.find(v => v.lang === 'ar-SA' && v.localService) ||
+                        voices.find(v => v.lang === 'ar-SA') || 
+                        voices.find(v => v.lang.startsWith('ar')) ||
                         voices.find(v => v.name.toLowerCase().includes('arabic'));
 
           if (arabicVoice) {
               utterance.voice = arabicVoice;
           }
-          
+
+          // Important for Android: setting lang is often better than picking a specific voice 
+          // that might not be compatible with the current engine.
           utterance.lang = 'ar-SA';
-          utterance.rate = 0.9;
-          utterance.pitch = 1;
 
           window.speechSynthesis.speak(utterance);
-      }, 50);
+      }, 20); // Reduced delay for better response
   }
 
   if (loading) {
