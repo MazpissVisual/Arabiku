@@ -58,7 +58,7 @@ export default function AdminLogin() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none transition-all"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none transition-all text-gray-900 placeholder-gray-400"
                         placeholder="admin@arabiku.com"
                         required
                     />
@@ -72,7 +72,7 @@ export default function AdminLogin() {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none transition-all"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none transition-all text-gray-900 placeholder-gray-400"
                         placeholder="••••••••"
                         required
                     />

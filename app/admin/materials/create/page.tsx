@@ -308,7 +308,7 @@ export default function CreateMaterialPage() {
                         type="text" 
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none"
+                        className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none text-gray-900 placeholder-gray-400"
                         placeholder="Contoh: Buah-buahan"
                         required
                     />
@@ -320,7 +320,7 @@ export default function CreateMaterialPage() {
                         <select 
                             value={categoryId}
                             onChange={(e) => setCategoryId(e.target.value)}
-                            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none"
+                            className="flex-1 px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none text-gray-900"
                             required
                         >
                             <option value="">-- Pilih Kategori --</option>
@@ -368,7 +368,7 @@ export default function CreateMaterialPage() {
                             dir="rtl"
                             value={arabicText}
                             onChange={(e) => setArabicText(e.target.value)}
-                            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none font-arabic text-xl"
+                            className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none font-arabic text-xl text-gray-900 placeholder-gray-400"
                             placeholder="تفاحة"
                             required
                         />
@@ -379,7 +379,7 @@ export default function CreateMaterialPage() {
                             type="text" 
                             value={translation}
                             onChange={(e) => setTranslation(e.target.value)}
-                            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none"
+                            className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none text-gray-900 placeholder-gray-400"
                             placeholder="Apel"
                             required
                         />
@@ -391,7 +391,7 @@ export default function CreateMaterialPage() {
                             type="text" 
                             value={reading}
                             onChange={(e) => setReading(e.target.value)}
-                            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none font-medium text-gray-600"
+                            className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none font-medium text-gray-900 placeholder-gray-400"
                             placeholder="Contoh: Tuffāḥatun"
                         />
                     </div>
@@ -402,22 +402,22 @@ export default function CreateMaterialPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="md:col-span-2">
                                 <label className="block text-xs font-medium text-gray-500 mb-1">Kalimat Arab</label>
-                                <input 
+                                 <input 
                                     type="text" 
                                     dir="rtl"
                                     value={exampleSentence}
                                     onChange={(e) => setExampleSentence(e.target.value)}
-                                    className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none font-arabic text-lg"
+                                    className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none font-arabic text-lg text-gray-900 placeholder-gray-400"
                                     placeholder="أَكَلْتُ تُفَّاحَةً لَذِيْذَةً"
                                 />
                             </div>
                             <div>
                                 <label className="block text-xs font-medium text-gray-500 mb-1">Cara Baca</label>
-                                <input 
+                                 <input 
                                     type="text" 
                                     value={exampleReading}
                                     onChange={(e) => setExampleReading(e.target.value)}
-                                    className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none text-sm"
+                                    className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none text-sm text-gray-900 placeholder-gray-400"
                                     placeholder="Akaltu tuffāḥatan laḏīḏah"
                                 />
                             </div>
@@ -427,7 +427,7 @@ export default function CreateMaterialPage() {
                                     value={exampleMeaning}
                                     onChange={(e) => setExampleMeaning(e.target.value)}
                                     rows={1}
-                                    className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none resize-none"
+                                    className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none resize-none text-gray-900 placeholder-gray-400"
                                     placeholder="Saya makan apel yang lezat"
                                 />
                             </div>
@@ -440,12 +440,12 @@ export default function CreateMaterialPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="md:col-span-2">
                                 <label className="block text-xs font-medium text-gray-500 mb-1">Kalimat Arab</label>
-                                <input 
+                                 <input 
                                     type="text" 
                                     dir="rtl"
                                     value={exampleSentence2}
                                     onChange={(e) => setExampleSentence2(e.target.value)}
-                                    className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none font-arabic text-lg"
+                                    className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none font-arabic text-lg text-gray-900 placeholder-gray-400"
                                     placeholder="Contoh kalimat kedua..."
                                 />
                             </div>
@@ -455,7 +455,7 @@ export default function CreateMaterialPage() {
                                     type="text" 
                                     value={exampleReading2}
                                     onChange={(e) => setExampleReading2(e.target.value)}
-                                    className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none text-sm"
+                                    className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none text-sm text-gray-900 placeholder-gray-400"
                                     placeholder="Cara baca contoh 2"
                                 />
                             </div>
@@ -465,7 +465,7 @@ export default function CreateMaterialPage() {
                                     value={exampleMeaning2}
                                     onChange={(e) => setExampleMeaning2(e.target.value)}
                                     rows={1}
-                                    className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none resize-none"
+                                    className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none resize-none text-gray-900 placeholder-gray-400"
                                     placeholder="Arti contoh kalimat 2"
                                 />
                             </div>

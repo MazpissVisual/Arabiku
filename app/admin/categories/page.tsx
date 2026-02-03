@@ -10,11 +10,13 @@ export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const [newCategoryName, setNewCategoryName] = useState('')
+  const [newCategoryDescription, setNewCategoryDescription] = useState('')
   const [isCreating, setIsCreating] = useState(false)
   
   // Editing state
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editName, setEditName] = useState('')
+  const [editDescription, setEditDescription] = useState('')
 
   useEffect(() => {
     fetchCategories()
@@ -44,7 +46,11 @@ export default function CategoriesPage() {
     
     const { data, error } = await supabase
       .from('categories')
-      .insert([{ name: newCategoryName, slug }])
+      .insert([{ 
+          name: newCategoryName, 
+          slug, 
+          description: newCategoryDescription 
+      }])
       .select()
       .single()
 
@@ -54,6 +60,7 @@ export default function CategoriesPage() {
       toast.success('Kategori berhasil dibuat')
       setCategories([data, ...categories])
       setNewCategoryName('')
+      setNewCategoryDescription('')
     }
     setIsCreating(false)
   }
@@ -61,11 +68,13 @@ export default function CategoriesPage() {
   const handleEdit = (category: Category) => {
     setEditingId(category.id)
     setEditName(category.name)
+    setEditDescription(category.description || '')
   }
 
   const handleCancelEdit = () => {
     setEditingId(null)
     setEditName('')
+    setEditDescription('')
   }
 
   const handleUpdate = async (id: number) => {
@@ -75,14 +84,18 @@ export default function CategoriesPage() {
     
     const { error } = await supabase
       .from('categories')
-      .update({ name: editName, slug })
+      .update({ 
+          name: editName, 
+          slug, 
+          description: editDescription 
+      })
       .eq('id', id)
 
     if (error) {
       toast.error('Gagal update kategori: ' + error.message)
     } else {
       toast.success('Kategori berhasil diperbarui')
-      setCategories(categories.map(c => c.id === id ? { ...c, name: editName, slug } : c))
+      setCategories(categories.map(c => c.id === id ? { ...c, name: editName, slug, description: editDescription } : c))
       setEditingId(null)
     }
   }
@@ -118,34 +131,43 @@ export default function CategoriesPage() {
       {/* Add New Category Form */}
       <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">Tambah Kategori Baru</h2>
-        <form onSubmit={handleCreate} className="flex gap-4">
-            <input 
-                type="text" 
-                value={newCategoryName}
-                onChange={(e) => setNewCategoryName(e.target.value)}
-                placeholder="Nama Kategori (contoh: Hewan)"
-                className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none transition-all"
+        <form onSubmit={handleCreate} className="space-y-4">
+            <div className="flex gap-4">
+                <input 
+                    type="text" 
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
+                    placeholder="Nama Kategori (contoh: Hewan)"
+                    className="flex-1 px-4 py-2.5 rounded-xl border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none transition-all text-gray-900 placeholder-gray-400"
+                />
+                <button 
+                    type="submit" 
+                    disabled={isCreating || !newCategoryName}
+                    className="bg-[#e76f51] hover:bg-[#d05d40] text-white px-6 py-2.5 rounded-xl font-medium shadow-lg shadow-orange-500/20 active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    <Plus size={20} />
+                    Tambah
+                </button>
+            </div>
+            <textarea 
+                value={newCategoryDescription}
+                onChange={(e) => setNewCategoryDescription(e.target.value)}
+                placeholder="Deskripsi Kategori (opsional)"
+                rows={2}
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-400 focus:border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none transition-all text-gray-900 placeholder-gray-400 resize-none"
             />
-            <button 
-                type="submit" 
-                disabled={isCreating || !newCategoryName}
-                className="bg-[#e76f51] hover:bg-[#d05d40] text-white px-6 py-2.5 rounded-xl font-medium shadow-lg shadow-orange-500/20 active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-                <Plus size={20} />
-                Tambah
-            </button>
         </form>
       </div>
 
       {/* Categories List */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-left border-collapse">
                 <thead className="bg-gray-50 border-b border-gray-100">
                     <tr>
-                        <th className="px-6 py-4 font-semibold text-gray-600">Nama Kategori</th>
-                        <th className="px-6 py-4 font-semibold text-gray-600">Slug</th>
-                        <th className="px-6 py-4 font-semibold text-gray-600 text-right">Aksi</th>
+                        <th className="px-6 py-4 font-semibold text-gray-600 w-1/4">Nama & Deskripsi</th>
+                        <th className="px-6 py-4 font-semibold text-gray-600 w-1/4 text-center">Slug</th>
+                        <th className="px-6 py-4 font-semibold text-gray-600 text-right w-1/6">Aksi</th>
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -159,21 +181,33 @@ export default function CategoriesPage() {
                         </tr>
                     ) : (
                         categories.map((category) => (
-                            <tr key={category.id} className="hover:bg-gray-50/50 transition-colors">
+                            <tr key={category.id} className="hover:bg-gray-50/50 transition-colors align-top">
                                 <td className="px-6 py-4">
                                     {editingId === category.id ? (
-                                        <input 
-                                            type="text" 
-                                            value={editName}
-                                            onChange={(e) => setEditName(e.target.value)}
-                                            className="w-full px-3 py-1.5 rounded-lg border border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none"
-                                            autoFocus
-                                        />
+                                        <div className="space-y-2">
+                                            <input 
+                                                type="text" 
+                                                value={editName}
+                                                onChange={(e) => setEditName(e.target.value)}
+                                                className="w-full px-3 py-1.5 rounded-lg border border-[#e76f51] focus:ring-2 focus:ring-[#e76f51]/20 outline-none text-gray-900"
+                                                autoFocus
+                                            />
+                                            <textarea 
+                                                value={editDescription}
+                                                onChange={(e) => setEditDescription(e.target.value)}
+                                                className="w-full px-3 py-1.5 rounded-lg border border-gray-400 focus:ring-2 focus:ring-[#e76f51]/20 outline-none text-gray-900 text-sm resize-none"
+                                                rows={2}
+                                                placeholder="Deskripsi..."
+                                            />
+                                        </div>
                                     ) : (
-                                        <span className="font-medium text-gray-800">{category.name}</span>
+                                        <div className="flex flex-col">
+                                            <span className="font-medium text-gray-800">{category.name}</span>
+                                            <span className="text-xs text-gray-500 line-clamp-2 mt-1">{category.description || '-'}</span>
+                                        </div>
                                     )}
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 text-center">
                                     <span className="px-2 py-1 bg-gray-100 rounded-md text-xs text-gray-500 font-mono">
                                         {category.slug || '-'}
                                     </span>
