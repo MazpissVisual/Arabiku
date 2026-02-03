@@ -9,14 +9,14 @@ export default function Home() {
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-black/10 z-0 fixed"></div>
 
-      <main className="relative z-10 flex flex-col items-center w-full max-w-sm gap-2 md:gap-8 responsive-game-scale origin-center transition-transform duration-500">
+      <main className="relative z-10 flex flex-col items-center w-full max-w-sm gap-6 md:gap-12 responsive-game-scale origin-center transition-transform duration-500">
         {/* Header / Logo Area */}
-        <div className="flex flex-col items-center mb-1 md:mb-4 text-center">
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-black text-[#FFF176] drop-shadow-[0_4px_0_#F57F17] md:drop-shadow-[0_6px_0_#F57F17] tracking-tighter mb-1 md:mb-4 stroke-text animate-pulse-slow">
+        <div className="flex flex-col items-center mb-2 md:mb-8 text-center">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-black text-[#FFF176] drop-shadow-[0_4px_0_#F57F17] md:drop-shadow-[0_6px_0_#F57F17] tracking-tighter mb-4 md:mb-6 stroke-text animate-pulse-slow">
                 Arabiku
             </h1>
-            <div className="bg-[#FFF9C4]/90 px-6 py-1.5 md:px-8 md:py-2.5 rounded-[2rem] border-2 md:border-4 border-[#FBC02D] shadow-xl transform -rotate-1">
-                <p className="text-xs sm:text-base md:text-xl font-black text-[#E65100] uppercase tracking-widest leading-none">Belajar Bahasa Arab</p>
+            <div className="bg-[#FFF9C4]/90 px-8 py-2 md:px-10 md:py-3 rounded-[2rem] border-2 md:border-4 border-[#FBC02D] shadow-xl transform -rotate-1">
+                <p className="text-sm sm:text-xl md:text-2xl font-black text-[#E65100] uppercase tracking-widest leading-none">Belajar Bahasa Arab</p>
             </div>
         </div>
 
@@ -81,7 +81,7 @@ export default function Home() {
             </div>
 
             {/* Footer / Admin Link */}
-            <div className="mt-1 md:mt-4 text-center">
+            <div className="mt-8 md:mt-12 text-center">
                 <Link href="/admin/login">
                     <button className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-1.5 md:px-6 md:py-2 rounded-full border border-white/30 text-white font-bold text-[10px] md:text-sm transition-all shadow-lg active:scale-95">
                        Login Guru / Admin 🔐
@@ -91,36 +91,6 @@ export default function Home() {
         </div>
       </main>
 
-      <style jsx global>{`
-        .border-b-6 { border-bottom-width: 6px; }
-        
-        /* Height-based responsive scaling - Targeted for 1920x912 laptop */
-        .responsive-game-scale {
-            transform: scale(0.8);
-        }
-
-        @media (min-height: 600px) {
-            .responsive-game-scale { transform: scale(0.9); }
-        }
-
-        @media (min-height: 800px) {
-            .responsive-game-scale { transform: scale(1.0); }
-        }
-
-        /* The user's specific laptop height (912px) - Sweet spot scale */
-        @media (min-height: 900px) {
-            .responsive-game-scale { transform: scale(1.08); }
-        }
-
-        @media (min-height: 1000px) {
-            .responsive-game-scale { transform: scale(1.2); }
-        }
-
-        /* Large External Monitors */
-        @media (min-height: 1200px) {
-            .responsive-game-scale { transform: scale(1.4); }
-        }
-      `}</style>
     </div>
   );
 }

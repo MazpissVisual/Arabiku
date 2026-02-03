@@ -64,3 +64,32 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #E65100;
 }
+
+.border-b-6 { border-bottom-width: 6px; }
+
+/* Height-based responsive scaling - Targeted for 1920x912 laptop */
+.responsive-game-scale {
+    transform: scale(0.8);
+}
+
+@media (min-height: 600px) {
+    .responsive-game-scale { transform: scale(0.9); }
+}
+
+@media (min-height: 800px) {
+    .responsive-game-scale { transform: scale(1.0); }
+}
+
+/* The user's specific laptop height (912px) - Sweet spot scale */
+@media (min-height: 900px) {
+    .responsive-game-scale { transform: scale(1.08); }
+}
+
+@media (min-height: 1000px) {
+    .responsive-game-scale { transform: scale(1.2); }
+}
+
+/* Large External Monitors */
+@media (min-height: 1200px) {
+    .responsive-game-scale { transform: scale(1.4); }
+}

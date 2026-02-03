@@ -117,18 +117,18 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
          <Link href="/materials" className="p-3 bg-[#FFF9C4] border-4 border-[#FBC02D] rounded-full shadow-lg hover:rotate-[-10deg] transition-all text-[#E65100] active:scale-95">
              <ArrowLeft size={28} strokeWidth={3} />
          </Link>
-         {viewState === 'playing' && (
-             <div className="flex flex-col items-center flex-1 mx-4">
-                 <div className="bg-[#FFF9C4]/90 px-6 py-2 rounded-full border-4 border-[#FBC02D] shadow-md mb-2">
-                    <h1 className="font-black text-[#E65100] text-lg uppercase tracking-wide">{category?.name}</h1>
-                 </div>
-                 <div className="w-full max-w-xs h-4 bg-[#FFF9C4] border-2 border-[#FBC02D] rounded-full overflow-hidden shadow-inner">
-                     <div className="h-full bg-gradient-to-r from-[#FFB74D] to-[#E65100] transition-all duration-300 relative" style={{ width: `${progress}%` }}>
-                        <div className="absolute top-0 right-0 bottom-0 w-1 bg-white/50"></div>
-                     </div>
-                 </div>
-             </div>
-         )}
+          {viewState === 'playing' && (
+              <div className="flex flex-col items-center flex-1 mx-2 min-w-0">
+                  <div className="bg-[#FFF9C4]/90 px-4 py-1.5 md:px-6 md:py-2 rounded-full border-2 md:border-4 border-[#FBC02D] shadow-md mb-2 max-w-full">
+                     <h1 className="font-black text-[#E65100] text-sm sm:text-lg uppercase tracking-wide whitespace-nowrap overflow-hidden text-ellipsis">{category?.name}</h1>
+                  </div>
+                  <div className="w-full max-w-xs h-3 md:h-4 bg-[#FFF9C4] border-2 border-[#FBC02D] rounded-full overflow-hidden shadow-inner flex-shrink-0">
+                      <div className="h-full bg-gradient-to-r from-[#FFB74D] to-[#E65100] transition-all duration-300 relative" style={{ width: `${progress}%` }}>
+                         <div className="absolute top-0 right-0 bottom-0 w-1 bg-white/50"></div>
+                      </div>
+                  </div>
+              </div>
+          )}
          <div className="w-10"></div> {/* Spacer */}
       </div>
 
@@ -397,9 +397,9 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
                 <ChevronLeft size={36} strokeWidth={3} />
             </button>
             
-            <div className="px-6 py-3 bg-[#3E2723] rounded-full border-4 border-[#8D6E63] shadow-lg">
-                <span className="font-black text-[#FFECB3] text-2xl tracking-widest">
-                    {currentIndex + 1} <span className="text-[#A1887F] text-xl">/</span> {materials.length}
+            <div className="px-4 py-2 md:px-6 md:py-3 bg-[#3E2723] rounded-full border-4 border-[#8D6E63] shadow-lg whitespace-nowrap">
+                <span className="font-black text-[#FFECB3] text-lg md:text-2xl tracking-widest leading-none flex items-center justify-center">
+                    {currentIndex + 1} <span className="text-[#A1887F] text-sm md:text-xl mx-1">/</span> {materials.length}
                 </span>
             </div>
 
