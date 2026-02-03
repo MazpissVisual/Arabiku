@@ -41,4 +41,5 @@ export type Question = {
   option_c: string
   option_d: string
   correct_answer: 'a' | 'b' | 'c' | 'd'
+  order_index: number
 }
