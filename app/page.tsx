@@ -5,11 +5,11 @@ import { Gamepad2, GraduationCap, PlayCircle, Lock } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="h-screen overflow-hidden flex flex-col items-center justify-center p-4 relative bg-[url('/bg-main.jpg')] bg-cover bg-center bg-no-repeat">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center p-6 relative bg-[url('/bg-main.jpg')] bg-cover bg-center bg-no-repeat overflow-x-hidden overflow-y-auto">
       {/* Overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/10 z-0"></div>
+      <div className="absolute inset-0 bg-black/10 z-0 fixed"></div>
 
-      <main className="relative z-10 flex flex-col items-center justify-center w-full max-w-sm gap-12">
+      <main className="relative z-10 flex flex-col items-center justify-center w-full max-w-sm gap-8 md:gap-12 py-4">
         {/* Header / Logo Area */}
         <div className="flex flex-col items-center mb-4 text-center">
             <h1 className="text-7xl md:text-8xl font-black text-[#FFF176] drop-shadow-[0_6px_0_#F57F17] tracking-tighter mb-4 stroke-text animate-pulse-slow">
