@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 import { Quiz } from '@/lib/types'
+import Image from 'next/image'
 import { ArrowLeft, Gamepad2, Loader2, Trophy, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -29,9 +30,18 @@ export default function QuizzesIndex() {
   }
 
   return (
-    <div className="h-screen relative bg-[url('/bg-main.jpg')] bg-cover bg-center bg-no-repeat p-4 md:p-8 overflow-hidden">
+    <div className="h-screen relative p-4 md:p-8 overflow-hidden">
+      {/* Optimized Background Image */}
+      <Image
+        src="/bg-main.jpg"
+        alt="Background"
+        fill
+        priority
+        className="object-cover z-0"
+        quality={75}
+      />
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/20 z-0 fixed"></div>
+      <div className="absolute inset-0 bg-black/20 z-[5] fixed"></div>
 
       <div className="max-w-7xl mx-auto relative z-10 h-full flex flex-col">
         <header className="mb-2 flex flex-col md:flex-row items-center gap-4 text-center md:text-left shrink-0">
@@ -76,8 +86,13 @@ export default function QuizzesIndex() {
                                 {/* Top Banner Area */}
                                 <div className="h-[45%] bg-[#FFFDE7] relative overflow-hidden flex items-center justify-center border-b-2 border-[#FBC02D]/20 transition-colors group-hover:bg-white/80">
                                     {quiz.thumbnail_url ? (
-                                        // eslint-disable-next-line @next/next/no-img-element
-                                        <img src={quiz.thumbnail_url} alt={quiz.title} className="w-full h-full object-cover" />
+                                        <Image 
+                                            src={quiz.thumbnail_url} 
+                                            alt={quiz.title} 
+                                            fill
+                                            className="w-full h-full object-cover"
+                                            sizes="(max-width: 768px) 100vw, 320px"
+                                        />
                                     ) : (
                                         <div className="w-16 h-16 md:w-20 md:h-20 bg-[#FBC02D] rounded-full flex items-center justify-center text-white border-4 border-white shadow-lg group-hover:scale-110 group-hover:rotate-[10deg] transition-all duration-300">
                                             <Gamepad2 className="w-8 h-8 md:w-10 md:h-10" strokeWidth={2.5} />

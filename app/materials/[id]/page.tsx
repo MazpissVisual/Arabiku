@@ -4,6 +4,7 @@ import React, { useEffect, useState, use } from 'react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 import { Material, Category } from '@/lib/types'
+import Image from 'next/image'
 import { ArrowLeft, ChevronLeft, ChevronRight, Volume2, Home, RotateCcw, BookOpen, RotateCw, Star, GraduationCap } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
@@ -156,9 +157,18 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
 
 
   return (
-    <div className="h-screen bg-[#fdf6e3] flex flex-col overflow-hidden relative bg-[url('/bg-main.jpg')] bg-cover bg-center bg-no-repeat">
+    <div className="h-screen bg-[#fdf6e3] flex flex-col overflow-hidden relative">
+       {/* Optimized Background Image */}
+       <Image
+         src="/bg-main.jpg"
+         alt="Background"
+         fill
+         priority
+         className="object-cover z-0"
+         quality={75}
+       />
        {/* Overlay */}
-       <div className="absolute inset-0 bg-black/20 z-0 pointer-events-none"></div>
+       <div className="absolute inset-0 bg-black/20 z-[5] pointer-events-none"></div>
 
       {/* Header / Navbar */}
       <div className="px-6 py-4 shrink-0 flex items-center justify-between z-20">
@@ -302,11 +312,13 @@ export default function MaterialViewer({ params }: { params: Promise<{ id: strin
                                 </div>
                                 
                                 {currentMaterial.image_url ? (
-                                    // eslint-disable-next-line @next/next/no-img-element
-                                    <img 
+                                    <Image 
                                         src={currentMaterial.image_url} 
                                         alt={currentMaterial.title} 
-                                        className="w-full h-full object-cover transform transition-transform group-hover:scale-105 duration-700" 
+                                        fill
+                                        className="object-cover transform transition-transform group-hover:scale-105 duration-700"
+                                        priority={currentIndex === 0}
+                                        sizes="(max-width: 768px) 100vw, 50vw"
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-gray-100">

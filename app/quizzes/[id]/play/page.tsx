@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { Quiz, Question } from '@/lib/types'
+import Image from 'next/image'
 import { Loader2, X, Check, Trophy, RotateCcw, Home, Gamepad2, Star, Volume2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import confetti from 'canvas-confetti'
@@ -203,17 +204,30 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
 
   if (loading) {
     return (
-        <div className="h-screen relative flex items-center justify-center p-6 bg-[url('/bg-main.jpg')] bg-cover bg-center">
-            <div className="absolute inset-0 bg-black/20 z-0 fixed"></div>
-            <Loader2 className="animate-spin text-[#FBC02D] relative z-10" size={60} />
+        <div className="h-screen relative flex items-center justify-center p-6">
+            <Image
+                src="/bg-main.jpg"
+                alt="Background"
+                fill
+                priority
+                className="object-cover z-0"
+            />
+            <div className="absolute inset-0 bg-black/20 z-[5] fixed"></div>
+            <Loader2 className="animate-spin text-[#FBC02D] relative z-20" size={60} />
         </div>
     )
   }
 
   if (!quiz || questions.length === 0) {
     return (
-        <div className="h-screen relative flex flex-col items-center justify-center p-6 text-center bg-[url('/bg-main.jpg')] bg-cover bg-center">
-            <div className="absolute inset-0 bg-black/40 z-0 fixed"></div>
+        <div className="h-screen relative flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+            <Image
+                src="/bg-main.jpg"
+                alt="Background"
+                fill
+                className="object-cover z-0"
+            />
+            <div className="absolute inset-0 bg-black/40 z-[5] fixed"></div>
             <div className="relative z-10 bg-[#FFF9C4] p-10 rounded-[3rem] border-4 border-[#FBC02D] shadow-2xl max-w-sm w-full">
                 <div className="w-24 h-24 bg-[#FBC02D] rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-white shadow-lg">
                     <Gamepad2 size={48} className="text-white" />
@@ -231,8 +245,15 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
   // --- Intro Screen ---
   if (gameState === 'intro') {
       return (
-          <div className="h-screen relative flex flex-col items-center justify-center p-4 text-center bg-[url('/bg-main.jpg')] bg-cover bg-center overflow-hidden">
-              <div className="absolute inset-0 bg-black/20 z-0 fixed"></div>
+          <div className="h-screen relative flex flex-col items-center justify-center p-4 text-center overflow-hidden">
+              <Image
+                src="/bg-main.jpg"
+                alt="Background"
+                fill
+                priority
+                className="object-cover z-0"
+              />
+              <div className="absolute inset-0 bg-black/20 z-[5] fixed"></div>
               
               <div className="relative z-10 w-full max-w-xl scale-[0.9] md:scale-100 origin-center">
                   <div className="bg-[#FFF9C4] px-6 py-4 rounded-[2rem] border-4 border-[#FBC02D] shadow-2xl mb-4 transform -rotate-1 mx-auto w-fit">
@@ -281,8 +302,15 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
       else if (finalScore >= 60) { message = "Bagus Sekali!"; emotion = "⭐" }
 
       return (
-          <div className="h-screen relative flex flex-col items-center justify-center p-4 text-center bg-[url('/bg-main.jpg')] bg-cover bg-center overflow-hidden">
-              <div className="absolute inset-0 bg-black/30 z-0 fixed"></div>
+          <div className="h-screen relative flex flex-col items-center justify-center p-4 text-center overflow-hidden">
+              <Image
+                src="/bg-main.jpg"
+                alt="Background"
+                fill
+                priority
+                className="object-cover z-0"
+              />
+              <div className="absolute inset-0 bg-black/30 z-[5] fixed"></div>
               
               <div className="relative z-10 w-full max-w-lg scale-[0.9] md:scale-100 origin-center">
                   <div className="absolute inset-0 bg-[#E65100] rounded-[3rem] translate-y-3 opacity-60"></div>
@@ -324,8 +352,15 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
   const currentQ = questions[currentIndex]
   
   return (
-    <div className="h-screen relative flex flex-col p-4 bg-[url('/bg-main.jpg')] bg-cover bg-center overflow-hidden">
-      <div className="absolute inset-0 bg-black/10 z-0 fixed"></div>
+    <div className="h-screen relative flex flex-col p-4 overflow-hidden">
+      <Image
+        src="/bg-main.jpg"
+        alt="Background"
+        fill
+        priority
+        className="object-cover z-0"
+      />
+      <div className="absolute inset-0 bg-black/10 z-[5] fixed"></div>
 
       <div className="relative z-10 flex flex-col flex-1 h-full max-w-3xl mx-auto w-full origin-top scale-[0.95] md:scale-100">
         {/* Header Bar */}
@@ -390,8 +425,13 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
                     {/* Question Image (If exists) - Fixed Square Frame */}
                     {currentQ.image_url && (
                         <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-3xl border-4 border-[#FBC02D] overflow-hidden shadow-md relative shrink-0">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={currentQ.image_url} alt="Question" className="w-full h-full object-cover" />
+                            <Image 
+                                src={currentQ.image_url} 
+                                alt="Question" 
+                                fill
+                                className="w-full h-full object-cover" 
+                                sizes="(max-width: 768px) 96px, 128px"
+                            />
                         </div>
                     )}
 
@@ -476,9 +516,14 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
                                 <div className="flex items-center gap-3 flex-1">
                                     {/* Option Image (If exists) */}
                                     {(currentQ as any)[`option_${optKey}_image`] && (
-                                        <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-lg border-2 border-orange-200 overflow-hidden shrink-0">
-                                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img src={(currentQ as any)[`option_${optKey}_image`]} alt="Option" className="w-full h-full object-cover" />
+                                        <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-lg border-2 border-orange-200 overflow-hidden shrink-0 relative">
+                                            <Image 
+                                                src={(currentQ as any)[`option_${optKey}_image`]} 
+                                                alt="Option" 
+                                                fill
+                                                className="w-full h-full object-cover"
+                                                sizes="(max-width: 768px) 48px, 64px"
+                                            />
                                         </div>
                                     )}
                                     <span className="text-left line-clamp-2 pr-4">{optionText}</span>

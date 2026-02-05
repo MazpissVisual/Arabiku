@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from "next/link";
+import Image from "next/image";
 import { Gamepad2, GraduationCap, PlayCircle, Lock, Monitor, X } from "lucide-react";
 
 export default function Home() {
@@ -27,9 +28,18 @@ export default function Home() {
   );
 
   return (
-    <div className="h-screen w-full flex flex-col items-center justify-center p-2 relative bg-[url('/bg-main.jpg')] bg-cover bg-center bg-no-repeat overflow-hidden">
+    <div className="h-screen w-full flex flex-col items-center justify-center p-2 relative overflow-hidden">
+      {/* Optimized Background Image */}
+      <Image
+        src="/bg-main.jpg"
+        alt="Background"
+        fill
+        priority
+        className="object-cover z-0"
+        quality={75}
+      />
       {/* Overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/10 z-0 fixed"></div>
+      <div className="absolute inset-0 bg-black/10 z-[5] fixed"></div>
 
       <main className="relative z-10 flex flex-col items-center w-full max-w-sm gap-10 md:gap-12 responsive-game-scale origin-center transition-transform duration-500 pt-12 md:pt-0">
         {/* Header / Logo Area */}
