@@ -130,6 +130,12 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
   const [optC, setOptC] = useState('')
   const [optD, setOptD] = useState('')
   const [correct, setCorrect] = useState<'a'|'b'|'c'|'d'>('a')
+  const [qImage, setQImage] = useState('')
+  const [qAudio, setQAudio] = useState('')
+  const [optAImg, setOptAImg] = useState('')
+  const [optBImg, setOptBImg] = useState('')
+  const [optCImg, setOptCImg] = useState('')
+  const [optDImg, setOptDImg] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
   // DND Sensors
@@ -183,6 +189,12 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
     setOptC('')
     setOptD('')
     setCorrect('a')
+    setQImage('')
+    setQAudio('')
+    setOptAImg('')
+    setOptBImg('')
+    setOptCImg('')
+    setOptDImg('')
   }
 
   const handleEditClick = (q: Question) => {
@@ -193,6 +205,12 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
     setOptC(q.option_c)
     setOptD(q.option_d)
     setCorrect(q.correct_answer)
+    setQImage(q.image_url || '')
+    setQAudio(q.audio_url || '')
+    setOptAImg(q.option_a_image || '')
+    setOptBImg(q.option_b_image || '')
+    setOptCImg(q.option_c_image || '')
+    setOptDImg(q.option_d_image || '')
     
     // Scroll to form on mobile
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -211,7 +229,13 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
                 option_b: optB,
                 option_c: optC,
                 option_d: optD,
-                correct_answer: correct
+                correct_answer: correct,
+                image_url: qImage || null,
+                audio_url: qAudio || null,
+                option_a_image: optAImg || null,
+                option_b_image: optBImg || null,
+                option_c_image: optCImg || null,
+                option_d_image: optDImg || null
             }).eq('id', editingId).select().single()
 
             if (error) throw error
@@ -228,7 +252,13 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
                 option_c: optC,
                 option_d: optD,
                 correct_answer: correct,
-                order_index: questions.length
+                order_index: questions.length,
+                image_url: qImage || null,
+                audio_url: qAudio || null,
+                option_a_image: optAImg || null,
+                option_b_image: optBImg || null,
+                option_c_image: optCImg || null,
+                option_d_image: optDImg || null
             }).select().single()
 
             if (error) throw error
@@ -355,32 +385,71 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
                         />
                     </div>
 
+                    <div className="grid grid-cols-2 gap-3">
+                        <div>
+                            <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">URL Gambar Soal</label>
+                            <input 
+                                type="text"
+                                value={qImage}
+                                onChange={e => setQImage(e.target.value)}
+                                className="w-full px-3 py-1.5 mt-1 rounded-lg border border-gray-300 text-xs outline-none"
+                                placeholder="https://..."
+                            />
+                        </div>
+                        <div>
+                            <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">URL Audio Soal</label>
+                            <input 
+                                type="text"
+                                value={qAudio}
+                                onChange={e => setQAudio(e.target.value)}
+                                className="w-full px-3 py-1.5 mt-1 rounded-lg border border-gray-300 text-xs outline-none"
+                                placeholder="https://..."
+                            />
+                        </div>
+                    </div>
+
                     <div className="space-y-3">
                          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Pilihan Jawaban</label>
                          {['a', 'b', 'c', 'd'].map((opt) => (
-                             <div key={opt} className="flex items-center gap-2">
-                                 <div className={cn(
-                                     "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 transition-all",
-                                     correct === opt ? "bg-green-500 text-white shadow-md scale-110" : "bg-gray-100 text-gray-400 cursor-pointer hover:bg-gray-200"
-                                 )} onClick={() => setCorrect(opt as any)}>
-                                     {opt.toUpperCase()}
+                             <div key={opt}>
+                                 <div className="flex items-center gap-2">
+                                     <div className={cn(
+                                         "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 transition-all",
+                                         correct === opt ? "bg-green-500 text-white shadow-md scale-110" : "bg-gray-100 text-gray-400 cursor-pointer hover:bg-gray-200"
+                                     )} onClick={() => setCorrect(opt as any)}>
+                                         {opt.toUpperCase()}
+                                     </div>
+                                     <input 
+                                        type="text"
+                                        value={opt === 'a' ? optA : opt === 'b' ? optB : opt === 'c' ? optC : optD}
+                                        onChange={e => {
+                                            if(opt === 'a') setOptA(e.target.value)
+                                            if(opt === 'b') setOptB(e.target.value)
+                                            if(opt === 'c') setOptC(e.target.value)
+                                            if(opt === 'd') setOptD(e.target.value)
+                                        }}
+                                        className={cn(
+                                            "flex-1 px-3 py-2 rounded-md border text-sm outline-none text-gray-900 placeholder-gray-400 transition-all",
+                                            correct === opt ? "border-green-500 bg-green-50/30" : "border-gray-300 focus:border-orange-300"
+                                        )}
+                                        placeholder={`Teks Pilihan ${opt.toUpperCase()}`}
+                                        required
+                                     />
                                  </div>
-                                 <input 
-                                    type="text"
-                                    value={opt === 'a' ? optA : opt === 'b' ? optB : opt === 'c' ? optC : optD}
-                                    onChange={e => {
-                                        if(opt === 'a') setOptA(e.target.value)
-                                        if(opt === 'b') setOptB(e.target.value)
-                                        if(opt === 'c') setOptC(e.target.value)
-                                        if(opt === 'd') setOptD(e.target.value)
-                                    }}
-                                    className={cn(
-                                        "flex-1 px-3 py-2 rounded-md border text-sm outline-none text-gray-900 placeholder-gray-400 transition-all",
-                                        correct === opt ? "border-green-500 bg-green-50/30" : "border-gray-300 focus:border-orange-300"
-                                    )}
-                                    placeholder={`Pilihan ${opt.toUpperCase()}`}
-                                    required
-                                 />
+                                 <div className="pl-9 pb-2">
+                                    <input 
+                                        type="text"
+                                        value={opt === 'a' ? optAImg : opt === 'b' ? optBImg : opt === 'c' ? optCImg : optDImg}
+                                        onChange={e => {
+                                            if(opt === 'a') setOptAImg(e.target.value)
+                                            if(opt === 'b') setOptBImg(e.target.value)
+                                            if(opt === 'c') setOptCImg(e.target.value)
+                                            if(opt === 'd') setOptDImg(e.target.value)
+                                        }}
+                                        className="w-full px-3 py-1 rounded border border-gray-200 text-[10px] outline-none"
+                                        placeholder={`URL Gambar Pilihan ${opt.toUpperCase()} (Opsional)`}
+                                    />
+                                 </div>
                              </div>
                          ))}
                     </div>

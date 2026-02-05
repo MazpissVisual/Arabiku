@@ -44,6 +44,16 @@ body {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
   }
+
+  @keyframes bounce-in {
+    0% { transform: translateY(100px) scale(0.8); opacity: 0; }
+    70% { transform: translateY(-10px) scale(1.05); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+}
+
+.animate-bounce-in {
+    animation: bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .stroke-text {
@@ -96,4 +106,15 @@ body {
 /* Large External Monitors */
 @media (min-height: 1200px) {
     .responsive-game-scale { transform: scale(1.4); }
+}
+
+/* Tutorial Page Specific Scaling */
+.responsive-tutorial-scale {
+    transform: scale(0.95);
+}
+@media (min-height: 850px) {
+    .responsive-tutorial-scale { transform: scale(1.05); }
+}
+@media (min-height: 1000px) {
+    .responsive-tutorial-scale { transform: scale(1.2); }
 }

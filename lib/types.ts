@@ -36,10 +36,15 @@ export type Question = {
   quiz_id: number
   question_text: string
   image_url?: string
+  audio_url?: string
   option_a: string
+  option_a_image?: string
   option_b: string
+  option_b_image?: string
   option_c: string
+  option_c_image?: string
   option_d: string
+  option_d_image?: string
   correct_answer: 'a' | 'b' | 'c' | 'd'
   order_index: number
 }

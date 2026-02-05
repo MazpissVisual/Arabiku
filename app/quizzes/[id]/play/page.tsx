@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { Quiz, Question } from '@/lib/types'
-import { Loader2, X, Check, Trophy, RotateCcw, Home, Gamepad2, Star } from 'lucide-react'
+import { Loader2, X, Check, Trophy, RotateCcw, Home, Gamepad2, Star, Volume2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import confetti from 'canvas-confetti'
 
@@ -65,6 +65,83 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
     const secs = seconds % 60
     return `${mins}:${secs.toString().padStart(2, '0')}`
   }
+
+  const speak = (text: string, audioUrl?: string) => {
+    if (audioUrl) {
+      const audio = new Audio(audioUrl);
+      audio.play();
+      return;
+    }
+
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    
+    // Stop any current speech
+    window.speechSynthesis.cancel();
+
+    // Clean text: remove punctuation but keep letters and numbers
+    const cleanText = text.replace(/[?"'!:;,.]/g, ' ').trim();
+    if (!cleanText) return;
+
+    // Regex to detect Arabic characters
+    const arabicRegex = /[\u0600-\u06FF]/;
+    
+    const parts: { text: string, lang: string }[] = [];
+    const words = cleanText.split(/\s+/);
+    let currentPart = { text: '', lang: '' };
+
+    words.forEach((word) => {
+        if (!word.trim()) return;
+        const isAr = arabicRegex.test(word);
+        const lang = isAr ? 'ar-SA' : 'id-ID';
+
+        if (currentPart.lang === '') {
+            currentPart = { text: word, lang };
+        } else if (currentPart.lang === lang) {
+            currentPart.text += ' ' + word;
+        } else {
+            parts.push({ ...currentPart });
+            currentPart = { text: word, lang };
+        }
+    });
+    if (currentPart.text) parts.push(currentPart);
+
+    // Get all available voices once
+    const voices = window.speechSynthesis.getVoices();
+
+    // Queue all parts
+    parts.forEach((part) => {
+        const utterance = new SpeechSynthesisUtterance(part.text);
+        utterance.lang = part.lang;
+        utterance.rate = 0.95;
+        
+        // Find best voice for this language
+        const voice = voices.find(v => v.lang.startsWith(part.lang.split('-')[0]) && v.localService) ||
+                      voices.find(v => v.lang.startsWith(part.lang.split('-')[0]));
+        
+        if (voice) utterance.voice = voice;
+        
+        // Speak! (Browser handles the queue automatically)
+        window.speechSynthesis.speak(utterance);
+    });
+  }
+
+  // Pre-load voices for mobile/Android (Previous Concept)
+  useEffect(() => {
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+          const loadVoices = () => {
+              window.speechSynthesis.getVoices();
+          };
+          loadVoices();
+          if (window.speechSynthesis.onvoiceschanged !== undefined) {
+              window.speechSynthesis.onvoiceschanged = loadVoices;
+          }
+      }
+      return () => {
+          if (typeof window !== 'undefined' && window.speechSynthesis) {
+              window.speechSynthesis.cancel();
+          }
+      };
+  }, []);
 
   useEffect(() => {
     async function init() {
@@ -267,7 +344,10 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
 
             {/* Timer Display (Center on Mobile & Desktop) */}
             <div className="col-span-2 md:col-start-2 md:col-span-1 order-3 md:order-2">
-                 <div className="bg-[#FFF9C4] p-1.5 rounded-full border-2 border-[#FBC02D] shadow-md relative flex items-center h-8">
+                 <div className={cn(
+                     "bg-[#FFF9C4] p-1.5 rounded-full border-2 border-[#FBC02D] shadow-md relative flex items-center h-8 transition-all",
+                     (timeLeft / totalTime) < 0.2 && "panic-bounce border-red-500 shadow-red-200"
+                 )}>
                     <div className="h-full bg-[#FBC02D]/20 rounded-full overflow-hidden flex-1 relative min-w-[100px]">
                         <div 
                             className={cn(
@@ -301,16 +381,35 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
         {/* Question Area */}
         <div className="flex-1 flex flex-col w-full min-h-0 justify-center">
             {/* Question Card */}
-            <div className="relative group mb-6 shrink-0">
+            <div className="relative group mb-4 shrink-0">
                 {/* 3D Depth */}
                 <div className="absolute inset-0 bg-[#E65100] translate-y-3 opacity-60 rounded-[3rem]"></div>
                 <div className="absolute inset-0 bg-[#FFB300] translate-y-2 border-b-8 border-[#E65100] rounded-[3rem]"></div>
 
-                <div className="relative bg-gradient-to-b from-[#FFFDE7] to-[#FFF9C4] rounded-[3rem] p-8 md:p-10 border-4 border-white shadow-inner flex items-center justify-center min-h-[180px] md:min-h-[220px] text-center">
-                    <h2 className="text-2xl md:text-4xl font-black text-[#E65100] leading-tight uppercase tracking-tight">
-                        {currentQ.question_text}
-                    </h2>
-                    <div className="absolute top-4 left-10 w-16 h-8 bg-white/40 rounded-full rotate-[-20deg] blur-[2px]"></div>
+                <div className="relative bg-gradient-to-b from-[#FFFDE7] to-[#FFF9C4] rounded-[3rem] p-6 md:p-8 border-4 border-white shadow-inner flex flex-col items-center justify-center min-h-[140px] md:min-h-[180px] text-center gap-4">
+                    {/* Question Image (If exists) - Fixed Square Frame */}
+                    {currentQ.image_url && (
+                        <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-3xl border-4 border-[#FBC02D] overflow-hidden shadow-md relative shrink-0">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={currentQ.image_url} alt="Question" className="w-full h-full object-cover" />
+                        </div>
+                    )}
+
+                    <div className="flex flex-col items-center">
+                        <h2 className="text-xl md:text-3xl font-black text-[#E65100] leading-tight uppercase tracking-tight px-4">
+                            {currentQ.question_text}
+                        </h2>
+                    </div>
+
+                    {/* Audio Button - Ultra Tiny Style (Adjusted Spacing) */}
+                    <button 
+                        onClick={() => speak(currentQ.question_text, currentQ.audio_url)}
+                        className="absolute top-4 right-5 bg-orange-500 hover:bg-orange-600 text-white p-0.5 rounded-full shadow-sm active:scale-90 transition-all border-[1px] border-white z-20"
+                    >
+                        <Volume2 size={8} className="md:size-10" strokeWidth={2.5} />
+                    </button>
+
+                    <div className="absolute top-4 left-10 w-12 h-6 bg-white/40 rounded-full rotate-[-20deg] blur-[1px]"></div>
                 </div>
             </div>
 
@@ -371,10 +470,19 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
                             <div className={cn("absolute inset-0 translate-y-1 rounded-2xl border-b-6", bottomBorder)}></div>
                             
                             <div className={cn(
-                                "relative py-5 px-8 rounded-2xl font-black text-xl border-4 flex items-center justify-between transition-all",
+                                "relative py-4 px-6 md:py-5 md:px-8 rounded-2xl font-black text-xl border-4 flex items-center justify-between transition-all min-h-[80px]",
                                 faceColor, textColor, borderColor
                             )}>
-                                <span className="flex-1 text-left line-clamp-2 pr-4">{optionText}</span>
+                                <div className="flex items-center gap-3 flex-1">
+                                    {/* Option Image (If exists) */}
+                                    {(currentQ as any)[`option_${optKey}_image`] && (
+                                        <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-lg border-2 border-orange-200 overflow-hidden shrink-0">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img src={(currentQ as any)[`option_${optKey}_image`]} alt="Option" className="w-full h-full object-cover" />
+                                        </div>
+                                    )}
+                                    <span className="text-left line-clamp-2 pr-4">{optionText}</span>
+                                </div>
                                 <div className="flex-shrink-0">
                                     {isAnswered && isCorrectAnswer && <Check className="text-white drop-shadow-md" size={32} strokeWidth={4} />}
                                     {isAnswered && isSelected && !isCorrectAnswer && <X className="text-white drop-shadow-md" size={32} strokeWidth={4} />}
@@ -441,6 +549,13 @@ export default function QuizPlay({ params }: { params: Promise<{ id: string }> }
         @keyframes scale-up-center {
             0% { transform: scale(0.5); }
             100% { transform: scale(1); }
+        }
+        .panic-bounce {
+            animation: panic-bounce 0.6s ease-in-out infinite;
+        }
+        @keyframes panic-bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
         }
       `}</style>
     </div>
