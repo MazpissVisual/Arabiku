@@ -385,33 +385,10 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
                         />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
-                        <div>
-                            <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">URL Gambar Soal</label>
-                            <input 
-                                type="text"
-                                value={qImage}
-                                onChange={e => setQImage(e.target.value)}
-                                className="w-full px-3 py-1.5 mt-1 rounded-lg border border-gray-300 text-xs outline-none"
-                                placeholder="https://..."
-                            />
-                        </div>
-                        <div>
-                            <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">URL Audio Soal</label>
-                            <input 
-                                type="text"
-                                value={qAudio}
-                                onChange={e => setQAudio(e.target.value)}
-                                className="w-full px-3 py-1.5 mt-1 rounded-lg border border-gray-300 text-xs outline-none"
-                                placeholder="https://..."
-                            />
-                        </div>
-                    </div>
-
                     <div className="space-y-3">
                          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Pilihan Jawaban</label>
                          {['a', 'b', 'c', 'd'].map((opt) => (
-                             <div key={opt}>
+                             <div key={opt} className="mb-2">
                                  <div className="flex items-center gap-2">
                                      <div className={cn(
                                          "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 transition-all",
@@ -435,20 +412,6 @@ export default function QuizDetail({ params }: { params: Promise<{ id: string }>
                                         placeholder={`Teks Pilihan ${opt.toUpperCase()}`}
                                         required
                                      />
-                                 </div>
-                                 <div className="pl-9 pb-2">
-                                    <input 
-                                        type="text"
-                                        value={opt === 'a' ? optAImg : opt === 'b' ? optBImg : opt === 'c' ? optCImg : optDImg}
-                                        onChange={e => {
-                                            if(opt === 'a') setOptAImg(e.target.value)
-                                            if(opt === 'b') setOptBImg(e.target.value)
-                                            if(opt === 'c') setOptCImg(e.target.value)
-                                            if(opt === 'd') setOptDImg(e.target.value)
-                                        }}
-                                        className="w-full px-3 py-1 rounded border border-gray-200 text-[10px] outline-none"
-                                        placeholder={`URL Gambar Pilihan ${opt.toUpperCase()} (Opsional)`}
-                                    />
                                  </div>
                              </div>
                          ))}
